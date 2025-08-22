@@ -5,5 +5,5 @@ python-decouple
 soupsieve
 sqlparse
 typing_extensions
-decouple==0.0.7
+python-decouple==3.8
 Django
