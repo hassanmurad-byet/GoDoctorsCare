@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Static Files Test</title>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="/static/css/front-page.css" rel="stylesheet">
+    <style>
+        .test-container {
+            padding: 20px;
+            margin: 20px;
+            border: 2px solid #007bff;
+            border-radius: 10px;
+        }
+        .test-success {
+            color: green;
+            font-weight: bold;
+        }
+        .test-fail {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-primary">Static Files Test</h1>
+        <div class="test-container">
+            <h2>Bootstrap Test</h2>
+            <button class="btn btn-primary">Primary Button</button>
+            <button class="btn btn-success">Success Button</button>
+            <button class="btn btn-warning">Warning Button</button>
+        </div>
+        
+        <div class="test-container">
+            <h2>Custom CSS Test</h2>
+            <p>If you can see colors and styling, CSS is loading correctly.</p>
+        </div>
+    </div>
+    
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
