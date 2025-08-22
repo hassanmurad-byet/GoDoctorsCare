@@ -31,6 +31,11 @@ def profile_image_url(user):
     Get the profile image URL for a user
     """
     if user and hasattr(user, 'profile_avatar') and user.profile_avatar:
-        return media_to_static(user.profile_avatar.url)
+        # Try to use the media file first
+        try:
+            return user.profile_avatar.url
+        except:
+            # Fallback to static version
+            return media_to_static(str(user.profile_avatar))
     else:
         return static('img/def.jpeg')

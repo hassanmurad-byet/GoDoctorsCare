@@ -9,9 +9,12 @@ pip install -r requirements.txt
 python manage.py migrate
 
 # Copy media files to static directory (temporary solution for Render)
-python copy_media_to_static.py
+python manage.py copy_media
 
-# Collect static files (after migrations)
+# Create sample profile images
+python create_sample_profiles.py
+
+# Collect static files (after copying media)
 python manage.py collectstatic --no-input --clear
 
 # Ensure media directory exists
