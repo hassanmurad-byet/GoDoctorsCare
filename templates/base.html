@@ -19,6 +19,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     {% block extra_css %}{% endblock extra_css %}
+
+    <!-- Custom navbar button styles -->
+    <style>
+      .navbar .nav-link.login-btn:hover {
+        background: #ffd700 !important;
+        color: #333 !important;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+      }
+
+      .navbar .nav-link.register-btn:hover {
+        background: linear-gradient(135deg, #ee5a24, #ff6b6b) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+      }
+    </style>
   </head>
 
   <body>
@@ -61,27 +77,35 @@
             </li>
             {% if user.is_authenticated %}
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                  {{ user.first_name }} {{ user.last_name }}
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                   style="background: rgba(255, 255, 255, 0.1); border-radius: 25px; padding: 0.5rem 1rem;">
+                  <i class="fas fa-user-circle me-1"></i>
+                  {% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.username }}{% endif %}
                 </a>
                 <ul class="dropdown-menu">
                   {% if user.is_doctor %}
-                    <li><a class="dropdown-item" href="{% url 'doctor_dashboard' %}">Dashboard</a></li>
-                    <li><a class="dropdown-item" href="{% url 'doctor_profile' %}">Profile</a></li>
+                    <li><a class="dropdown-item" href="{% url 'doctor_dashboard' %}"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
+                    <li><a class="dropdown-item" href="{% url 'doctor_profile' %}"><i class="fas fa-user me-2"></i>Profile</a></li>
                   {% else %}
-                    <li><a class="dropdown-item" href="{% url 'patient_dashboard' %}">Dashboard</a></li>
-                    <li><a class="dropdown-item" href="{% url 'patient_profile' %}">Profile</a></li>
+                    <li><a class="dropdown-item" href="{% url 'patient_dashboard' %}"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
+                    <li><a class="dropdown-item" href="{% url 'patient_profile' %}"><i class="fas fa-user me-2"></i>Profile</a></li>
                   {% endif %}
                   <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                  <li><a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
                 </ul>
               </li>
             {% else %}
               <li class="nav-item">
-                <a class="nav-link btn btn-outline-primary me-2" href="{% url 'login' %}">Login</a>
+                <a class="nav-link login-btn" href="{% url 'login' %}"
+                   style="background: transparent; border: 2px solid #ffd700; color: #ffd700 !important; border-radius: 25px; padding: 0.5rem 1.5rem; margin-right: 0.5rem; font-weight: 600; transition: all 0.3s ease;">
+                   Login
+                </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link btn btn-primary text-white" href="{% url 'register' %}">Register</a>
+                <a class="nav-link register-btn" href="{% url 'register' %}"
+                   style="background: linear-gradient(135deg, #ff6b6b, #ee5a24); border: none; color: white !important; border-radius: 25px; padding: 0.5rem 1.5rem; font-weight: 600; transition: all 0.3s ease;">
+                   Register
+                </a>
               </li>
             {% endif %}
           </ul>
