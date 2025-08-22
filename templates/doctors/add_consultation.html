@@ -1,0 +1,138 @@
+{% extends 'doctors/base.html' %}
+{% load static %}
+
+{% block title %}Add Consultation{% endblock %}
+{% block page_title %}Add Consultation{% endblock %}
+
+{% block content %}
+<main>
+  <section class="add-consultation-section py-4">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+
+          <!-- Page Header -->
+          <div class="bg-light rounded shadow-sm p-4 mb-4 text-center">
+            <h3 class="fw-bold">Add Consultation for 
+              <span class="text-primary">{{ appointment.patient.user.get_full_name }}</span>
+            </h3>
+          </div>
+
+          <!-- Consultation Form -->
+          <div class="bg-white rounded shadow p-4">
+            <form method="post">
+              {% csrf_token %}
+
+              <!-- Main Consultation Fields -->
+              <div class="mb-4">
+                {{ form.non_field_errors }}
+                {% for field in form %}
+                  <div class="mb-3">
+                    <label for="{{ field.id_for_label }}" class="form-label fw-semibold">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                      <div class="text-danger small">{{ field.errors }}</div>
+                    {% endif %}
+                  </div>
+                {% endfor %}
+              </div>
+
+              <!-- Medications Section -->
+              <div class="medications-section mt-4">
+                <h5 class="fw-bold mb-3">Medications</h5>
+
+                {{ formset.management_form }}
+
+                <table class="table table-bordered align-middle">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Medicine Name</th>
+                      <th>Dosage</th>
+                      <th>Frequency</th>
+                      <th>Duration</th>
+                      <th>Instructions</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="medication-table-body">
+                    {% for med_form in formset %}
+                      <tr class="medication-form">
+                        {% for field in med_form.visible_fields %}
+                          <td>
+                            {{ field }}
+                            {% if field.errors %}
+                              <div class="text-danger small">{{ field.errors }}</div>
+                            {% endif %}
+                          </td>
+                        {% endfor %}
+                        <td>
+                          <button type="button" class="btn btn-danger btn-sm remove-row">Remove</button>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+
+                <div class="text-end">
+                  <button type="button" class="btn btn-primary btn-sm" id="add-row">Add Medicine</button>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="text-center mt-4">
+                <button type="submit" class="btn btn-success px-4">Save Consultation</button>
+              </div>
+
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Custom JavaScript for dynamic medication rows -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const addRowBtn = document.getElementById('add-row');
+  const tableBody = document.getElementById('medication-table-body');
+  const totalForms = document.querySelector('[name$="-TOTAL_FORMS"]');
+
+  addRowBtn.addEventListener('click', function () {
+    const formCount = parseInt(totalForms.value);
+    const newRow = document.querySelector('.medication-form').cloneNode(true);
+
+    // Clear input values and update names/IDs
+    Array.from(newRow.querySelectorAll('input, textarea')).forEach(input => {
+      input.value = '';
+      const name = input.getAttribute('name').replace(/-\d+-/, `-${formCount}-`);
+      const id = input.getAttribute('id').replace(/-\d+-/, `-${formCount}-`);
+      input.setAttribute('name', name);
+      input.setAttribute('id', id);
+    });
+
+    totalForms.value = formCount + 1;
+    tableBody.appendChild(newRow);
+  });
+
+  tableBody.addEventListener('click', function (e) {
+    if (e.target.classList.contains('remove-row')) {
+      const rows = tableBody.querySelectorAll('.medication-form');
+      if (rows.length > 1) {
+        e.target.closest('tr').remove();
+        totalForms.value = tableBody.querySelectorAll('.medication-form').length;
+      }
+    }
+  });
+});
+</script>
+
+<!-- Optional styling for better form control appearance -->
+<style>
+  .table td input,
+  .table td textarea {
+    width: 100%;
+  }
+</style>
+{% endblock %}

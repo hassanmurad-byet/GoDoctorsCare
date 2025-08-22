@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Our Services{% endblock title %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="bg-primary text-white py-5" style="margin-top: 76px;">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto text-center">
+        <h1 class="display-4 fw-bold">Our Medical Services</h1>
+        <p class="lead">Comprehensive healthcare services for all your medical needs</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services Grid -->
+<section class="py-5">
+  <div class="container">
+    <div class="row g-4">
+      <!-- Cardiology -->
+      <div class="col-lg-4 col-md-6">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body p-4">
+            <div class="text-center mb-3">
+              <i class="fas fa-heartbeat text-danger fa-3x"></i>
+            </div>
+            <h5 class="card-title text-center">Cardiology</h5>
+            <p class="card-text text-muted">
+              Comprehensive heart and cardiovascular care including diagnosis, treatment, 
+              and prevention of heart diseases.
+            </p>
+            <ul class="list-unstyled">
+              <li><i class="fas fa-check text-success me-2"></i>ECG & Echo Tests</li>
+              <li><i class="fas fa-check text-success me-2"></i>Heart Surgery</li>
+              <li><i class="fas fa-check text-success me-2"></i>Cardiac Rehabilitation</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Neurology -->
+      <div class="col-lg-4 col-md-6">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body p-4">
+            <div class="text-center mb-3">
+              <i class="fas fa-brain text-primary fa-3x"></i>
+            </div>
+            <h5 class="card-title text-center">Neurology</h5>
+            <p class="card-text text-muted">
+              Expert care for brain, spine, and nervous system disorders with 
+              advanced diagnostic and treatment options.
+            </p>
+            <ul class="list-unstyled">
+              <li><i class="fas fa-check text-success me-2"></i>Brain Imaging</li>
+              <li><i class="fas fa-check text-success me-2"></i>Stroke Treatment</li>
+              <li><i class="fas fa-check text-success me-2"></i>Epilepsy Care</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pediatrics -->
+      <div class="col-lg-4 col-md-6">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body p-4">
+            <div class="text-center mb-3">
+              <i class="fas fa-child text-success fa-3x"></i>
+            </div>
+            <h5 class="card-title text-center">Pediatrics</h5>
+            <p class="card-text text-muted">
+              Specialized medical care for infants, children, and adolescents 
+              with child-friendly environment.
+            </p>
+            <ul class="list-unstyled">
+              <li><i class="fas fa-check text-success me-2"></i>Vaccinations</li>
+              <li><i class="fas fa-check text-success me-2"></i>Growth Monitoring</li>
+              <li><i class="fas fa-check text-success me-2"></i>Pediatric Surgery</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Surgery -->
+      <div class="col-lg-4 col-md-6">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body p-4">
+            <div class="text-center mb-3">
+              <i class="fas fa-cut text-warning fa-3x"></i>
+            </div>
+            <h5 class="card-title text-center">Surgery</h5>
+            <p class="card-text text-muted">
+              Advanced surgical procedures with minimally invasive techniques 
+              and state-of-the-art operating theaters.
+            </p>
+            <ul class="list-unstyled">
+              <li><i class="fas fa-check text-success me-2"></i>General Surgery</li>
+              <li><i class="fas fa-check text-success me-2"></i>Laparoscopic Surgery</li>
+              <li><i class="fas fa-check text-success me-2"></i>Emergency Surgery</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Orthopedics -->
+      <div class="col-lg-4 col-md-6">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body p-4">
+            <div class="text-center mb-3">
+              <i class="fas fa-bone text-info fa-3x"></i>
+            </div>
+            <h5 class="card-title text-center">Orthopedics</h5>
+            <p class="card-text text-muted">
+              Treatment of musculoskeletal system including bones, joints, 
+              ligaments, tendons, and muscles.
+            </p>
+            <ul class="list-unstyled">
+              <li><i class="fas fa-check text-success me-2"></i>Joint Replacement</li>
+              <li><i class="fas fa-check text-success me-2"></i>Sports Medicine</li>
+              <li><i class="fas fa-check text-success me-2"></i>Fracture Care</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Emergency Care -->
+      <div class="col-lg-4 col-md-6">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body p-4">
+            <div class="text-center mb-3">
+              <i class="fas fa-ambulance text-danger fa-3x"></i>
+            </div>
+            <h5 class="card-title text-center">Emergency Care</h5>
+            <p class="card-text text-muted">
+              24/7 emergency medical services with rapid response team 
+              and critical care facilities.
+            </p>
+            <ul class="list-unstyled">
+              <li><i class="fas fa-check text-success me-2"></i>24/7 Availability</li>
+              <li><i class="fas fa-check text-success me-2"></i>Trauma Care</li>
+              <li><i class="fas fa-check text-success me-2"></i>Critical Care Unit</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-lg-8 mx-auto">
+        <h2 class="display-5 fw-bold mb-3">Need Medical Assistance?</h2>
+        <p class="lead mb-4">Our expert medical team is ready to provide you with the best care possible</p>
+        <div class="d-flex justify-content-center gap-3">
+          <a href="{% url 'appointment' %}" class="btn btn-primary btn-lg px-4">
+            <i class="fas fa-calendar-plus me-2"></i>Book Appointment
+          </a>
+          <a href="{% url 'contact' %}" class="btn btn-outline-primary btn-lg px-4">
+            <i class="fas fa-phone me-2"></i>Contact Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

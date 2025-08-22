@@ -1,0 +1,68 @@
+{% extends 'patients/base.html' %}
+{% load static %}
+
+{% block content %}
+<main style="display: flex; justify-content: center; align-items: center; min-height: 80vh;">
+  <div style="background-color: #f9f9f9; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 400px; width: 100%; text-align: center;">
+
+    <h2 style="margin-bottom: 20px;">Payment for Appointment</h2>
+
+    <p><strong>Doctor:</strong> Dr. {{ appointment.doctor.user.get_full_name }}</p>
+    <p><strong>Appointment Date:</strong> {{ appointment.start_date| date:"F j, Y"}}</p>
+    <p><strong>Appointment Time:</strong> {{appointment.start_date|date:"g:i A"  }}</p>
+    <p><strong>Amount to Pay:</strong> {{ appointment.amount }} Tk</p>
+
+    <form method="post" action="" style="margin-top: 20px;" onsubmit="return validateBkashNumber()">
+      {% csrf_token %}
+
+      <!-- Bkash Logo Link -->
+      <a href="#" target="_blank">
+        <img src="{% static 'img/baks.png' %}" alt="Bkash Logo" style="height: 60px; margin-bottom: 10px;">
+      </a>
+
+      <div class="form-group" style="margin-bottom: 10px; text-align: left;">
+        <label for="bkash_number" style="font-weight: bold; color: red;">Bkash Number</label>
+        <input type="text" id="bkash_number" name="bkash_number" class="form-control" placeholder="Enter your Bkash number" required>
+        <small id="bkash_error" style="color: red; display: none;">Invalid Bkash number / must be 11 digits.</small>
+      </div>
+
+      <button type="submit" id="pay_btn" class="btn btn-success" style="width: 100%; font-size: 18px;">Pay {{ appointment.amount }} Tk</button>
+    </form>
+
+  </div>
+</main>
+
+<script>
+  const bkashInput = document.getElementById('bkash_number');
+  const errorText = document.getElementById('bkash_error');
+  const payButton = document.getElementById('pay_btn');
+
+  function validateBkashNumber() {
+    const number = bkashInput.value.trim();
+    const validPrefixes = ["013", "015", "016", "018", "019"];
+    const prefix = number.substring(0, 3);
+
+    if (number.length === 11 && validPrefixes.includes(prefix)) {
+      errorText.style.display = 'none';
+      return true;
+    } else {
+      errorText.style.display = 'block';
+      return false;
+    }
+  }
+
+  bkashInput.addEventListener('input', () => {
+    const number = bkashInput.value.trim();
+    const validPrefixes = ["013", "015", "016", "018", "019"];
+    const prefix = number.substring(0, 3);
+
+    if (number.length === 11 && validPrefixes.includes(prefix)) {
+      errorText.style.display = 'none';
+      payButton.disabled = false;
+    } else {
+      errorText.style.display = 'block';
+      payButton.disabled = true;
+    }
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,150 @@
+{% extends 'patients/base.html' %}
+{% load static %}
+
+{% block title %}Prescription Details{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        background-color: #f0f4f8;
+        font-family: "Georgia", serif;
+        color: #000;
+    }
+
+    .container {
+        max-width: 850px;
+        margin: 2rem auto;
+        background-color: #fff;
+        padding: 3rem;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        border: 1px solid #ccc;
+    }
+
+    .prescription-title {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #000;
+        margin-bottom: 2rem;
+        border-bottom: 2px solid #000;
+        padding-bottom: 1rem;
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    .prescription-section p {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        color: #000;
+    }
+
+    .label {
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #000;
+        margin-right: 0.5rem;
+    }
+
+    .medication-heading {
+        font-size: 1.6rem;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        color: #000;
+        font-weight: 700;
+        border-bottom: 1px dashed #000;
+        padding-bottom: 0.5rem;
+        font-family: 'Courier New', Courier, monospace;
+    }
+
+    table.table {
+        font-size: 1.1rem;
+        color: #000;
+        border: 1px solid #dee2e6;
+    }
+
+    table.table th, table.table td {
+        vertical-align: middle;
+    }
+
+    button.btn {
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: bold;
+        font-size: 1.1rem;
+        padding: 0.7rem 1.6rem;
+        border-radius: 6px;
+        border: 2px solid #000;
+        background: transparent;
+        color: #000;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    button.btn:hover {
+        background-color: #000;
+        color: #fff;
+    }
+
+    @media print {
+        button {
+            display: none;
+        }
+
+        .container {
+            box-shadow: none;
+            border: none;
+            padding: 0;
+            max-width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<main>
+    <div class="container">
+        <h2 class="prescription-title">📝 Prescription for {{ appointment.patient.user.get_full_name }}</h2>
+
+        <div class="prescription-section">
+            <p><span class="label">Diagnosis:</span> {{ consultation.diagnosis }}</p>
+            <p><span class="label">Prescription Notes:</span> {{ consultation.prescription_notes }}</p>
+            <p><span class="label">Follow-up Date:</span> {{ consultation.follow_up_date }}</p>
+        </div>
+
+        <h4 class="medication-heading">💊 Medications:</h4>
+
+        {% if medications %}
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="table-light">
+                    <tr>
+                        <th>Name</th>
+                        <th>Dosage</th>
+                        <th>Frequency</th>
+                        <th>Duration</th>
+                        <th>Instructions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for med in medications %}
+                    <tr>
+                        <td>{{ med.name }}</td>
+                        <td>{{ med.dosage }}</td>
+                        <td>{{ med.frequency }}</td>
+                        <td>{{ med.duration }}</td>
+                        <td>{{ med.instructions }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+            <p class="text-muted">No medications listed.</p>
+        {% endif %}
+
+        <div class="d-flex">
+            <button class="btn mt-4" onclick="window.print()">
+                🖨️ Print Prescription
+            </button>
+        </div>
+    </div>
+</main>
+{% endblock %}

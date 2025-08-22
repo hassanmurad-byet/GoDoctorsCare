@@ -1,0 +1,67 @@
+{% extends 'doctors/base.html' %}
+{% load static %}
+{% block title %}Consultation Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow p-4">
+        <h2 class="mb-4 text-primary">Consultation for {{ appointment.patient.user.get_full_name }}</h2>
+
+        <!-- Consultation Details -->
+        <div class="mb-4">
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <th class="text-secondary">Diagnosis</th>
+                        <td>{{ consultation.diagnosis }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-secondary">Prescription Notes</th>
+                        <td>{{ consultation.prescription_notes }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-secondary">Follow-up Date</th>
+                        <td>{{ consultation.follow_up_date }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Medications Table -->
+        <h4 class="mt-4">Medications:</h4>
+        {% if medications %}
+            <table class="table table-striped table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>Name</th>
+                        <th>Dosage</th>
+                        <th>Frequency</th>
+                        <th>Duration</th>
+                        <th>Instructions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for med in medications %}
+                        <tr>
+                            <td>{{ med.name }}</td>
+                            <td>{{ med.dosage }}</td>
+                            <td>{{ med.frequency }}</td>
+                            <td>{{ med.duration }}</td>
+                            <td>{{ med.instructions }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p class="text-muted">No medications listed.</p>
+        {% endif %}
+
+        <!-- Print Button -->
+        <div class="text-end mt-4">
+            <button class="btn btn-outline-primary" onclick="window.print()">
+                <i class="bi bi-printer"></i> Print Prescription
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}

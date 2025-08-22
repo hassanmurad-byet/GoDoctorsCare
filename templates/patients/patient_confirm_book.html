@@ -1,0 +1,114 @@
+{% extends 'patients/base.html' %}
+{% load static %}
+
+{% block title %}Book Appointment{% endblock title %}
+{% block page_title %}Appointment Booking{% endblock page_title %}
+
+{% block content %}
+<main>
+    <h2 class="dash-title">Appointment Booking Confirmation</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <section class="recent">
+        <div class="table-div bg-white">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-10 border p-4 shadow text-black" style="border-radius: 20px">
+                        <div class="col-12 text-black mb-4">
+                            <h3>Doctor Name: {{ doctor.user.get_full_name }}</h3>
+                            <p class="text-muted">Please fill in the appointment details below</p>
+                        </div>
+
+                        <form method="POST" class="needs-validation" novalidate autocomplete="off" id="bookingForm">
+                            {% csrf_token %}
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">First Name:</label>
+                                    <input type="text" class="form-control" value="{{ request.user.first_name }}" readonly />
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Last Name:</label>
+                                    <input type="text" class="form-control" value="{{ request.user.last_name }}" readonly />
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Select Date: <span class="text-danger">*</span></label>
+                                    <input type="date" class="form-control" id="dates" name="date" required />
+                                    <div class="invalid-feedback">Please select a valid date.</div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Select Time: <span class="text-danger">*</span></label>
+                                    <select name="time" id="times" class="form-select" required>
+                                        <option value="">Choose appointment time...</option>
+                                        {% for time in times %}
+                                            {% if time.time|stringformat:"s" in booked_times %}
+                                                <option value="{{ time.time }}" disabled>
+                                                    {{ time.time }} - (Already Booked)
+                                                </option>
+                                            {% else %}
+                                                <option value="{{ time.time }}">{{ time.time }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                    <div class="invalid-feedback">Please select an appointment time.</div>
+                                </div>
+
+                                <div class="col-md-12 mt-3">
+                                    <label class="form-label">Description (Optional):</label>
+                                    <textarea class="form-control" name="description" rows="4"
+                                              placeholder="Describe your symptoms or reason for visit..."></textarea>
+                                </div>
+
+                                <div class="col-12 mt-4 d-flex justify-content-between">
+                                    <a href="{% url 'book_appointment' %}" class="btn btn-secondary">
+                                        <i class="fas fa-arrow-left"></i> Back
+                                    </a>
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fas fa-calendar-check"></i> Book Appointment
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('bookingForm');
+    const dateInput = document.getElementById('dates');
+    const timeSelect = document.getElementById('times');
+
+    // Set today as min date
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.setAttribute('min', today);
+
+    form.addEventListener('submit', function (event) {
+        const selectedOption = timeSelect.options[timeSelect.selectedIndex];
+        if (!form.checkValidity() || selectedOption.disabled) {
+            event.preventDefault();
+            event.stopPropagation();
+            if (selectedOption.disabled) {
+                alert("The selected time slot is already booked. Please choose a different time.");
+            }
+        }
+        form.classList.add('was-validated');
+    });
+});
+</script>
+{% endblock %}

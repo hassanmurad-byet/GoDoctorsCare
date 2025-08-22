@@ -1,0 +1,170 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}{% endblock title %} - GoDoctor's Care</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'img/godoctor-icon.png' %}">
+    
+    <!-- Bootstrap CSS -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet"/>
+    
+    <!-- Custom CSS -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet"/>
+    <link href="{% static 'css/front-page.css' %}" rel="stylesheet"/>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    {% block extra_css %}{% endblock extra_css %}
+  </head>
+
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}" style="transition: all 0.3s ease;">
+          <img src="{% static 'img/godoctor-logo.png' %}" alt="GoDoctor's Care Logo" height="45"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"
+               style="filter: brightness(1.2) drop-shadow(2px 2px 4px rgba(0,0,0,0.3));">
+          <span class="logo-fallback-white" style="display: none; font-size: 20px; height: 45px; line-height: 35px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
+            <span class="go">Go</span><span class="doctor">Doctor's</span> <span class="care">Care</span>
+          </span>
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                style="border: 2px solid #ffd700; border-radius: 8px;">
+          <span class="navbar-toggler-icon" style="filter: brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(45deg);"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'about' %}">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'services' %}">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'doctors_list' %}">Doctors</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'appointment' %}">Book Appointment</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'contact' %}">Contact</a>
+            </li>
+            {% if user.is_authenticated %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                  {{ user.first_name }} {{ user.last_name }}
+                </a>
+                <ul class="dropdown-menu">
+                  {% if user.is_doctor %}
+                    <li><a class="dropdown-item" href="{% url 'doctor_dashboard' %}">Dashboard</a></li>
+                    <li><a class="dropdown-item" href="{% url 'doctor_profile' %}">Profile</a></li>
+                  {% else %}
+                    <li><a class="dropdown-item" href="{% url 'patient_dashboard' %}">Dashboard</a></li>
+                    <li><a class="dropdown-item" href="{% url 'patient_profile' %}">Profile</a></li>
+                  {% endif %}
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link btn btn-outline-primary me-2" href="{% url 'login' %}">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link btn btn-primary text-white" href="{% url 'register' %}">Register</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+      {% block content %}{% endblock content %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5 mt-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4 col-md-6 mb-4">
+            <h5 class="mb-3">GoDoctor's Care</h5>
+            <p class="text-muted">
+              Providing quality healthcare services with modern technology and compassionate care.
+              Your health is our priority.
+            </p>
+            <div class="social-links">
+              <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+              <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+              <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+              <a href="#" class="text-white me-3"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+          
+          <div class="col-lg-2 col-md-6 mb-4">
+            <h6 class="mb-3">Quick Links</h6>
+            <ul class="list-unstyled">
+              <li><a href="{% url 'home' %}" class="text-muted text-decoration-none">Home</a></li>
+              <li><a href="{% url 'about' %}" class="text-muted text-decoration-none">About</a></li>
+              <li><a href="{% url 'services' %}" class="text-muted text-decoration-none">Services</a></li>
+              <li><a href="{% url 'doctors_list' %}" class="text-muted text-decoration-none">Doctors</a></li>
+              <li><a href="{% url 'contact' %}" class="text-muted text-decoration-none">Contact</a></li>
+            </ul>
+          </div>
+          
+          <div class="col-lg-3 col-md-6 mb-4">
+            <h6 class="mb-3">Services</h6>
+            <ul class="list-unstyled">
+              <li><a href="#" class="text-muted text-decoration-none">Emergency Care</a></li>
+              <li><a href="#" class="text-muted text-decoration-none">Cardiology</a></li>
+              <li><a href="#" class="text-muted text-decoration-none">Neurology</a></li>
+              <li><a href="#" class="text-muted text-decoration-none">Pediatrics</a></li>
+              <li><a href="#" class="text-muted text-decoration-none">Surgery</a></li>
+            </ul>
+          </div>
+          
+          <div class="col-lg-3 col-md-6 mb-4">
+            <h6 class="mb-3">Contact Info</h6>
+            <ul class="list-unstyled text-muted">
+              <li><i class="fas fa-map-marker-alt me-2"></i> 123 Hospital Street, City</li>
+              <li><i class="fas fa-phone me-2"></i> +1 (555) 123-4567</li>
+              <li><i class="fas fa-envelope me-2"></i> info@hospital.com</li>
+              <li><i class="fas fa-clock me-2"></i> 24/7 Emergency Service</li>
+            </ul>
+          </div>
+        </div>
+        
+        <hr class="my-4">
+        
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <p class="mb-0 text-muted">&copy; 2024 GoDoctor's Care. All rights reserved.</p>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <a href="#" class="text-muted text-decoration-none me-3">Privacy Policy</a>
+            <a href="#" class="text-muted text-decoration-none">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="{% static 'js/main.js' %}"></script>
+    
+    {% block extra_js %}{% endblock extra_js %}
+  </body>
+</html>

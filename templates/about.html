@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us{% endblock title %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="bg-primary text-white py-5" style="margin-top: 76px;">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto text-center">
+        <h1 class="display-4 fw-bold">About GoDoctor's Care</h1>
+        <p class="lead">Committed to providing exceptional healthcare services with compassion and excellence</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About Content -->
+<section class="py-5">
+  <div class="container">
+    <div class="row align-items-center mb-5">
+      <div class="col-lg-6">
+        <h2 class="display-5 fw-bold mb-4">Our Mission</h2>
+        <p class="lead mb-4">
+          To provide comprehensive, compassionate, and high-quality healthcare services to our community, 
+          ensuring that every patient receives personalized care in a safe and comfortable environment.
+        </p>
+        <p class="mb-4">
+          We are committed to advancing medical excellence through continuous innovation, education, 
+          and the integration of cutting-edge technology with human-centered care.
+        </p>
+        <div class="row g-3">
+          <div class="col-sm-6">
+            <div class="d-flex align-items-center">
+              <i class="fas fa-check-circle text-success me-3"></i>
+              <span>24/7 Emergency Care</span>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="d-flex align-items-center">
+              <i class="fas fa-check-circle text-success me-3"></i>
+              <span>Expert Medical Team</span>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="d-flex align-items-center">
+              <i class="fas fa-check-circle text-success me-3"></i>
+              <span>Modern Equipment</span>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="d-flex align-items-center">
+              <i class="fas fa-check-circle text-success me-3"></i>
+              <span>Patient-Centered Care</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="about-image-placeholder bg-light rounded-3 shadow d-flex align-items-center justify-content-center" style="height: 350px;">
+          <div class="text-center">
+            <div class="logo-fallback" style="font-size: 36px; margin-bottom: 15px; border: none; background: transparent;">
+              <span class="go">Go</span><span class="doctor">Doctor's</span> <span class="care">Care</span>
+            </div>
+            <h5 class="text-muted">Our Healthcare Facility</h5>
+            <p class="text-muted">Modern, Compassionate, Professional</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="stat-item">
+          <h3 class="display-4 fw-bold text-primary">50+</h3>
+          <p class="lead">Expert Doctors</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="stat-item">
+          <h3 class="display-4 fw-bold text-success">10,000+</h3>
+          <p class="lead">Happy Patients</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="stat-item">
+          <h3 class="display-4 fw-bold text-info">15+</h3>
+          <p class="lead">Years Experience</p>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 mb-4">
+        <div class="stat-item">
+          <h3 class="display-4 fw-bold text-warning">24/7</h3>
+          <p class="lead">Emergency Service</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Values Section -->
+<section class="py-5">
+  <div class="container">
+    <div class="row text-center mb-5">
+      <div class="col-lg-8 mx-auto">
+        <h2 class="display-5 fw-bold mb-3">Our Core Values</h2>
+        <p class="lead text-muted">The principles that guide everything we do</p>
+      </div>
+    </div>
+    
+    <div class="row g-4">
+      <div class="col-lg-4 col-md-6">
+        <div class="text-center p-4">
+          <i class="fas fa-heart text-danger fa-3x mb-3"></i>
+          <h5>Compassion</h5>
+          <p class="text-muted">We treat every patient with empathy, kindness, and respect</p>
+        </div>
+      </div>
+      
+      <div class="col-lg-4 col-md-6">
+        <div class="text-center p-4">
+          <i class="fas fa-award text-primary fa-3x mb-3"></i>
+          <h5>Excellence</h5>
+          <p class="text-muted">We strive for the highest standards in medical care and service</p>
+        </div>
+      </div>
+      
+      <div class="col-lg-4 col-md-6">
+        <div class="text-center p-4">
+          <i class="fas fa-shield-alt text-success fa-3x mb-3"></i>
+          <h5>Integrity</h5>
+          <p class="text-muted">We maintain honesty and transparency in all our interactions</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

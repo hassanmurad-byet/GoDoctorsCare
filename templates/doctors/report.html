@@ -1,0 +1,131 @@
+{% extends 'doctors/base.html' %}
+{% load static %}
+
+{% block title %}Doctor Appointment Report{% endblock %}
+
+{% block content %}
+
+<main>
+<h1>Doctor Appointment Report</h1>
+
+<div class="section">
+    <h2>Total Appointments</h2>
+    <p><strong>{{ total_appointments }}</strong></p>
+</div>
+
+<div class="section">
+    <h2>Patients List</h2>
+    {% if patient_list %}
+        <ul>
+        {% for patient in patient_list %}
+            <li>{{ patient }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No patients found.</p>
+    {% endif %}
+</div>
+
+<div class="section">
+    <h2>Appointments Today ({{ accepted_today.count }})</h2>
+    {% if accepted_today %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointment in accepted_today %}
+                <tr>
+                    <td>
+                        {% if appointment.patient and appointment.patient.user %}
+                            {{ appointment.patient.user.get_full_name }}
+                        {% else %}
+                            Unknown Patient
+                        {% endif %}
+                    </td>
+                    <td>{{ appointment.start_date }}</td>
+                    <td>{{ appointment.end_date }}</td>
+                    <td>{{ appointment.notes|default:"N/A" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No appointments today.</p>
+    {% endif %}
+</div>
+
+<div class="section">
+    <h2>Appointments in Last Month ({{ accepted_last_month.count }})</h2>
+    {% if accepted_last_month %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointment in accepted_last_month %}
+                <tr>
+                    <td>
+                        {% if appointment.patient and appointment.patient.user %}
+                            {{ appointment.patient.user.get_full_name }}
+                        {% else %}
+                            Unknown Patient
+                        {% endif %}
+                    </td>
+                    <td>{{ appointment.start_date }}</td>
+                    <td>{{ appointment.end_date }}</td>
+                    <td>{{ appointment.notes|default:"N/A" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No appointments in last month.</p>
+    {% endif %}
+</div>
+
+<div class="section">
+    <h2>Appointments in Last 6 Months ({{ accepted_last_six_months.count }})</h2>
+    {% if accepted_last_six_months %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointment in accepted_last_six_months %}
+                <tr>
+                    <td>
+                        {% if appointment.patient and appointment.patient.user %}
+                            {{ appointment.patient.user.get_full_name }}
+                        {% else %}
+                            Unknown Patient
+                        {% endif %}
+                    </td>
+                    <td>{{ appointment.start_date }}</td>
+                    <td>{{ appointment.end_date }}</td>
+                    <td>{{ appointment.notes|default:"N/A" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No appointments in last 6 months.</p>
+    {% endif %}
+</div>
+</main>
+{% endblock %}

@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home{% endblock title %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section text-white py-5" style="margin-top: 76px; position: relative; overflow: hidden;">
+  <!-- Animated Background Elements -->
+  <div class="hero-bg-elements">
+    <div class="bg-shape shape-1" style="position: absolute; top: 10%; left: 10%; width: 100px; height: 100px; background: linear-gradient(45deg, #ffd700, #ffed4e); border-radius: 50%; opacity: 0.1; animation: float 6s ease-in-out infinite;"></div>
+    <div class="bg-shape shape-2" style="position: absolute; top: 60%; right: 15%; width: 150px; height: 150px; background: linear-gradient(45deg, #ff6b6b, #ee5a24); border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; opacity: 0.1; animation: float 8s ease-in-out infinite reverse;"></div>
+    <div class="bg-shape shape-3" style="position: absolute; bottom: 20%; left: 20%; width: 80px; height: 80px; background: linear-gradient(45deg, #4ecdc4, #44a08d); border-radius: 20px; opacity: 0.1; animation: float 7s ease-in-out infinite; transform: rotate(45deg);"></div>
+  </div>
+
+  <div class="container position-relative" style="z-index: 2;">
+    <div class="row align-items-center min-vh-75">
+      <div class="col-lg-6">
+        <h1 class="display-4 fw-bold mb-4">Your Health, Our Priority</h1>
+        <p class="lead mb-4">
+          Experience world-class healthcare with our team of expert doctors and modern facilities. 
+          Book your appointment today and take the first step towards better health.
+        </p>
+        <div class="d-flex flex-wrap gap-4 justify-content-center justify-lg-start">
+          <a href="{% url 'appointment' %}" class="btn btn-light btn-lg px-5 py-3"
+             style="background: linear-gradient(135deg, #ffd700, #ffed4e); color: #333; font-weight: 700; border-radius: 50px; box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3); transition: all 0.3s ease; text-decoration: none;">
+            <i class="fas fa-calendar-plus me-2"></i>Book Appointment
+          </a>
+          <a href="{% url 'services' %}" class="btn btn-outline-light btn-lg px-5 py-3"
+             style="border: 3px solid #ffd700; color: #ffd700; font-weight: 700; border-radius: 50px; background: transparent; transition: all 0.3s ease; text-decoration: none;">
+            <i class="fas fa-stethoscope me-2"></i>Our Services
+          </a>
+        </div>
+      </div>
+      <div class="col-lg-6 text-center">
+        <div class="hero-image-placeholder rounded-3 shadow-lg d-flex align-items-center justify-content-center position-relative"
+             style="height: 450px; background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1)); backdrop-filter: blur(10px); border: 2px solid rgba(255,255,255,0.3);">
+          <div class="text-center position-relative" style="z-index: 2;">
+            <div class="logo-fallback animated-logo" style="font-size: 52px; margin-bottom: 25px; border: none; background: transparent; animation: float 3s ease-in-out infinite;">
+              <span class="go" style="color: #ffd700; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Go</span><span class="doctor" style="color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Doctor's</span> <span class="care" style="color: #ff6b6b; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Care</span>
+            </div>
+            <h4 class="text-white mb-3" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.3); font-weight: 600;">Modern Healthcare Facility</h4>
+            <p class="text-white opacity-75" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.2); font-size: 1.1rem;">Your Health, Our Priority</p>
+            <div class="mt-4">
+              <div class="d-flex justify-content-center gap-4">
+                <div class="feature-badge" style="background: rgba(255,215,0,0.2); padding: 10px 20px; border-radius: 25px; border: 2px solid #ffd700;">
+                  <i class="fas fa-heart text-warning me-2"></i>
+                  <span class="text-white">Compassionate Care</span>
+                </div>
+                <div class="feature-badge" style="background: rgba(255,107,107,0.2); padding: 10px 20px; border-radius: 25px; border: 2px solid #ff6b6b;">
+                  <i class="fas fa-shield-alt text-danger me-2"></i>
+                  <span class="text-white">24/7 Support</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Floating elements -->
+          <div class="floating-element" style="position: absolute; top: 20px; right: 30px; animation: float 2s ease-in-out infinite reverse;">
+            <i class="fas fa-stethoscope fa-2x text-warning opacity-50"></i>
+          </div>
+          <div class="floating-element" style="position: absolute; bottom: 30px; left: 40px; animation: float 2.5s ease-in-out infinite;">
+            <i class="fas fa-heartbeat fa-2x text-danger opacity-50"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section py-5">
+  <div class="container">
+    <div class="row text-center mb-5">
+      <div class="col-lg-8 mx-auto">
+        <h2 class="display-5 fw-bold mb-3 text-white">Why Choose GoDoctor's Care?</h2>
+        <p class="lead text-white opacity-75">We provide comprehensive healthcare services with a patient-centered approach</p>
+      </div>
+    </div>
+    
+    <div class="row g-4">
+      <div class="col-lg-4 col-md-6">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body text-center p-4">
+            <div class="feature-icon bg-primary text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+              <i class="fas fa-user-md fa-2x"></i>
+            </div>
+            <h5 class="card-title">Expert Doctors</h5>
+            <p class="card-text text-muted">Our team of experienced and qualified doctors provide the best medical care</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-4 col-md-6">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body text-center p-4">
+            <div class="feature-icon bg-success text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+              <i class="fas fa-clock fa-2x"></i>
+            </div>
+            <h5 class="card-title">24/7 Emergency</h5>
+            <p class="card-text text-muted">Round-the-clock emergency services for urgent medical situations</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-4 col-md-6">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body text-center p-4">
+            <div class="feature-icon bg-info text-white rounded-circle mx-auto mb-3" style="width: 80px; height: 80px; display: flex; align-items: center; justify-content: center;">
+              <i class="fas fa-hospital fa-2x"></i>
+            </div>
+            <h5 class="card-title">Modern Facilities</h5>
+            <p class="card-text text-muted">State-of-the-art medical equipment and comfortable patient facilities</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services Section -->
+<section class="services-section py-5">
+  <div class="container position-relative">
+    <div class="row text-center mb-5">
+      <div class="col-lg-8 mx-auto">
+        <h2 class="display-5 fw-bold mb-3" style="background: linear-gradient(45deg, #667eea, #764ba2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Our Medical Services</h2>
+        <p class="lead" style="color: #555;">Comprehensive healthcare services for all your medical needs</p>
+      </div>
+    </div>
+    
+    <div class="row g-4">
+      <div class="col-lg-3 col-md-6">
+        <div class="service-card text-center cardiology-card" style="border-left: 5px solid #e74c3c;">
+          <div class="service-icon-wrapper mb-3" style="background: linear-gradient(135deg, #e74c3c, #c0392b); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+            <i class="fas fa-heartbeat text-white fa-2x"></i>
+          </div>
+          <h5 style="color: #e74c3c; font-weight: 700;">Cardiology</h5>
+          <p class="text-muted">Heart and cardiovascular care with advanced diagnostics</p>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="service-card text-center neurology-card" style="border-left: 5px solid #3498db;">
+          <div class="service-icon-wrapper mb-3" style="background: linear-gradient(135deg, #3498db, #2980b9); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+            <i class="fas fa-brain text-white fa-2x"></i>
+          </div>
+          <h5 style="color: #3498db; font-weight: 700;">Neurology</h5>
+          <p class="text-muted">Brain and nervous system treatment by specialists</p>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="service-card text-center pediatrics-card" style="border-left: 5px solid #2ecc71;">
+          <div class="service-icon-wrapper mb-3" style="background: linear-gradient(135deg, #2ecc71, #27ae60); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+            <i class="fas fa-child text-white fa-2x"></i>
+          </div>
+          <h5 style="color: #2ecc71; font-weight: 700;">Pediatrics</h5>
+          <p class="text-muted">Specialized care for children and adolescents</p>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6">
+        <div class="service-card text-center surgery-card" style="border-left: 5px solid #f39c12;">
+          <div class="service-icon-wrapper mb-3" style="background: linear-gradient(135deg, #f39c12, #e67e22); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+            <i class="fas fa-cut text-white fa-2x"></i>
+          </div>
+          <h5 style="color: #f39c12; font-weight: 700;">Surgery</h5>
+          <p class="text-muted">Advanced surgical procedures with precision</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section py-5 text-white">
+  <div class="container position-relative" style="z-index: 2;">
+    <div class="row text-center">
+      <div class="col-lg-8 mx-auto">
+        <h2 class="display-5 fw-bold mb-3" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Ready to Get Started?</h2>
+        <p class="lead mb-4" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">Book your appointment today and experience quality healthcare with GoDoctor's Care</p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+          <a href="{% url 'appointment' %}" class="btn btn-light btn-lg px-5 py-3" style="background: linear-gradient(135deg, #ffd700, #ffed4e); color: #333; font-weight: 700; border-radius: 50px; box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);">
+            <i class="fas fa-calendar-plus me-2"></i>Book Appointment Now
+          </a>
+          <a href="{% url 'contact' %}" class="btn btn-outline-light btn-lg px-5 py-3" style="border: 3px solid #ffd700; color: #ffd700; font-weight: 700; border-radius: 50px;">
+            <i class="fas fa-phone me-2"></i>Contact Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,218 @@
+{% extends base_template %}
+{% load static %}
+
+{% block title %} Profile {% endblock title %}
+{% block page_title %} Profile {% endblock page_title %}
+
+{% block content %}
+<main>
+  <section class="recent">
+    <div class="table-div">
+      <div class="table-card">
+        <div class="row p-3 justify-content-evenly user-profile">
+          {% if request.user.is_doctor %}
+          <h2 class="text-center fw-bold mb-5" style="color: rgb(3, 11, 72);">Doctor Profile</h2>
+          {% else %}
+          <h2 class="text-center fw-bold mb-5" style="color: rgb(3, 11, 72);">Patient Profile</h2>
+          {% endif %}
+
+          <div class="col-12 col-md-5 shadow mb-4">
+            <div class="text-center mt-4">
+              <img src="{{ basicdata.profile_avatar.url }}" class="img-fluid shadow avatar-profile-img" alt="Profile Avatar">
+            </div>
+
+            <!-- Change Password Section -->
+            <div class="row justify-content-evenly mt-4">
+              <button id="showPasswordBtn" class="btn btn-primary w-100 mb-3">Update Password</button>
+
+              <form method="post" id="passwordForm" style="display:none;">
+                {% csrf_token %}
+
+                {% if updated_password_successfully %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  Password updated successfully!
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+
+                {% if messages %}
+                <div class="alert alert-danger" role="alert">
+                  {% for message in messages %}
+                    {{ message }}
+                  {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="mb-3">
+                  <label class="mb-2 fw-bold">Current Password</label>
+                  <input type="password" class="form-control" name="current_password" required />
+                </div>
+
+                <div class="mb-3">
+                  <label class="mb-2 fw-bold">New Password</label>
+                  <input type="password" class="form-control" name="new_password" required />
+                </div>
+
+                <div class="mb-3">
+                  <label class="mb-2 fw-bold">Confirm New Password</label>
+                  <input type="password" class="form-control" name="confirm_new_password" required />
+                </div>
+
+                <div class="mb-3">
+                  <button type="submit" class="btn btn-primary w-100" name="update_password">Change Password</button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 mb-4">
+            <!-- Toggle Button -->
+            <div class="text-end mb-3">
+              <button class="btn btn-warning" id="editProfileBtn">Edit Profile</button>
+            </div>
+
+            <!-- View Mode -->
+            <div class="row shadow mb-3 p-3" id="profileViewMode">
+              <h5 class="mt-3 fw-bold mb-3">Personal Info</h5>
+              <p><strong>First Name:</strong> {{ basicdata.first_name }}</p>
+              <p><strong>Last Name:</strong> {{ basicdata.last_name }}</p>
+              <p><strong>Gender:</strong> {{ basicdata.gender }}</p>
+              <p><strong>Birthday:</strong> {{ basicdata.birthday }}</p>
+
+              {% if request.user.is_doctor %}
+              <p><strong>Specialty:</strong> {{ basicdata.doctors.specialty.name }}</p>
+              <p><strong>Bio:</strong> {{ basicdata.doctors.bio }}</p>
+              {% endif %}
+
+              {% if not request.user.is_doctor %}
+              <p><strong>Insurance:</strong> {{ basicdata.patients.insurance }}</p>
+              {% endif %}
+
+              <p><strong>Address:</strong> {{ basicdata.id_address.address_line }}, {{ basicdata.id_address.city }}, {{ basicdata.id_address.region }} - {{ basicdata.id_address.code_postal }}</p>
+            </div>
+
+            <!-- Edit Mode -->
+            <div class="row shadow mb-3 p-3" id="profileEditMode" style="display: none;">
+              <h5 class="mt-3 fw-bold mb-3">Edit Info</h5>
+              <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {% if updated_profile_successfully %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  Profile updated successfully!
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+
+                <div class="mb-3">
+                  <label class="fw-bold">First Name</label>
+                  <input type="text" class="form-control" name="user_firstname" value="{{ basicdata.first_name }}" required />
+                </div>
+
+                <div class="mb-3">
+                  <label class="fw-bold">Last Name</label>
+                  <input type="text" class="form-control" name="user_lastname" value="{{ basicdata.last_name }}" required />
+                </div>
+
+                {% if request.user.is_doctor %}
+                <div class="mb-3">
+                  <label class="fw-bold">Specialty</label>
+                  <select name="Speciality" class="form-select" required>
+                    {% for speciality in specialities %}
+                      <option value="{{ speciality.name }}" {% if speciality.name == basicdata.doctors.specialty.name %}selected{% endif %}>{{ speciality.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label class="fw-bold">Bio</label>
+                  <textarea class="form-control" name="bio" required>{{ basicdata.doctors.bio }}</textarea>
+                </div>
+                {% endif %}
+
+                {% if not request.user.is_doctor %}
+                <div class="mb-3">
+                  <label class="fw-bold">Insurance</label>
+                  <input type="text" class="form-control" name="insurance" value="{{ basicdata.patients.insurance }}" required />
+                </div>
+                {% endif %}
+
+                <div class="mb-3">
+                  <label class="fw-bold">Gender</label>
+                  <select class="form-select" name="user_gender" required>
+                    <option value="Male" {% if basicdata.gender == 'Male' %}selected{% endif %}>Male</option>
+                    <option value="Female" {% if basicdata.gender == 'Female' %}selected{% endif %}>Female</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label class="fw-bold">Birthday</label>
+                  <input type="date" class="form-control" name="birthday" value="{{ basicdata.birthday|date:'Y-m-d' }}" required />
+                </div>
+
+                <div class="mb-3">
+                  <label class="fw-bold">Address Line</label>
+                  <input type="text" class="form-control" name="address_line" value="{{ basicdata.id_address.address_line }}" required />
+                </div>
+
+                <div class="mb-3">
+                  <label class="fw-bold">Region</label>
+                  <input type="text" class="form-control" name="region" value="{{ basicdata.id_address.region }}" required />
+                </div>
+
+                <div class="mb-3">
+                  <label class="fw-bold">City</label>
+                  <input type="text" class="form-control" name="city" value="{{ basicdata.id_address.city }}" required />
+                </div>
+
+                <div class="mb-3">
+                  <label class="fw-bold">Code Postal</label>
+                  <input type="text" class="form-control" name="code_postal" value="{{ basicdata.id_address.code_postal }}" required />
+                </div>
+
+                <div class="mb-3">
+                  <label class="fw-bold">Profile Avatar</label>
+                  <input type="file" class="form-control" name="profile_pic">
+                </div>
+
+                <div class="mb-3">
+                  <button type="submit" class="btn btn-success w-100" name="update_profile">Save Changes</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+  // Toggle password form
+  document.getElementById('showPasswordBtn').addEventListener('click', function() {
+    const pwForm = document.getElementById('passwordForm');
+    if(pwForm.style.display === 'none' || pwForm.style.display === '') {
+      pwForm.style.display = 'block';
+      this.textContent = 'Cancel Password Update';
+    } else {
+      pwForm.style.display = 'none';
+      this.textContent = 'Update Password';
+    }
+  });
+
+  // Toggle edit profile form
+  document.getElementById('editProfileBtn').addEventListener('click', function() {
+    const editMode = document.getElementById('profileEditMode');
+    const viewMode = document.getElementById('profileViewMode');
+    if(editMode.style.display === 'none' || editMode.style.display === '') {
+      editMode.style.display = 'block';
+      viewMode.style.display = 'none';
+      this.textContent = 'Cancel Edit';
+    } else {
+      editMode.style.display = 'none';
+      viewMode.style.display = 'block';
+      this.textContent = 'Edit Profile';
+    }
+  });
+</script>
+{% endblock content %}

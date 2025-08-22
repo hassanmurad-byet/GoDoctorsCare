@@ -1,0 +1,142 @@
+{% extends 'patients/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+
+  <!-- Filter Form -->
+  <form method="get" class="row g-3 mb-4">
+    <h2 class="mb-4">My Appointments</h2>
+
+    <div class="col-md-4">
+      <label for="filter_date">Date</label>
+      <input type="date" name="filter_date" id="filter_date" value="{{ filter_date }}" class="form-control">
+    </div>
+
+    <div class="col-md-4">
+      <label for="filter_doctor_name">Doctor Name</label>
+      <input type="text" name="filter_doctor_name" id="filter_doctor_name" value="{{ filter_doctor_name }}" class="form-control" placeholder="Search by name">
+    </div>
+
+    <div class="col-md-4 d-flex align-items-end">
+      <button type="submit" class="btn btn-primary w-100">Apply Filter</button>
+    </div>
+  </form>
+
+  <!-- Appointments Table -->
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
+      <thead class="table-dark text-center">
+        <tr>
+          <th>Doctor</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Description</th>
+          <th>Payment</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for appointment in appointments %}
+        <tr id="appointment-row-{{ appointment.id }}">
+          <td>Dr. {{ appointment.doctor.user.get_full_name }}</td>
+          <td>{{ appointment.start_date|date:"Y-m-d" }}</td>
+          <td>{{ appointment.time.time }}</td>
+          <td>{{ appointment.description|linebreaksbr }}</td>
+          <td class="text-center">
+            {% if appointment.payment_status %}
+              <span class="badge bg-success">Paid</span>
+            {% else %}
+              <span class="badge bg-warning text-dark">Not Paid</span>
+            {% endif %}
+          </td>
+          <td class="text-end">
+            {% if not appointment.payment_status %}
+              <a href="{% url 'choose_consultation_time' appointment.id %}" class="btn btn-sm btn-info mb-1">Choose Time & Pay</a>
+            {% else %}
+              <button class="btn btn-sm btn-success mb-1" disabled>Payment Complete</button>
+            {% endif %}
+
+            <td>
+              {% if appointment.consultation %}
+                  <a href="{% url 'view_prescription' appointment.id %}" class="btn btn-sm btn-primary">
+                      View Prescription
+                  </a>
+              {% else %}
+                  <span class="text-muted">Not Available</span>
+              {% endif %}
+          </td>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="text-center text-muted">No appointments found.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Total Count -->
+  <div class="text-end mt-3">
+    <strong>Total Appointments:</strong> {{ total_appointments }}
+  </div>
+</div>
+
+<!-- JavaScript for Cancel Button -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const cancelButtons = document.querySelectorAll(".cancel-button");
+
+    cancelButtons.forEach(button => {
+      button.addEventListener("click", function () {
+        const url = this.dataset.url;
+        const appointmentId = this.dataset.id;
+        const row = document.getElementById(`appointment-row-${appointmentId}`);
+
+        if (confirm("Are you sure you want to cancel this appointment?")) {
+          fetch(url, {
+            method: 'POST',
+            headers: {
+              'X-CSRFToken': getCookie('csrftoken'),
+              'Accept': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
+            }
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              row.remove();
+              alert("Appointment cancelled successfully.");
+            } else {
+              alert(data.error || "Cancellation failed.");
+            }
+          })
+          .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred while cancelling the appointment.");
+          });
+        }
+      });
+    });
+
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+  });
+</script>
+
+<!-- Bootstrap Icons for download and PDF -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+{% endblock %}

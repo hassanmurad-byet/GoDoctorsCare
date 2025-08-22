@@ -1,0 +1,43 @@
+{% extends 'patients/base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+  <h2>My Appointment Report</h2>
+
+  <p><strong>Total Appointments:</strong> {{ total_appointments }}</p>
+  <p><strong>Unique Doctors Visited:</strong> {{ doctor_list|length }}</p>
+
+  <hr>
+  <h4>Appointments Summary:</h4>
+  <ul>
+    <li>Appointments Today: {{ appointments_today.count }}</li>
+    <li>Appointments in Last 30 Days: {{ appointments_last_month.count }}</li>
+    <li>Appointments in Last 6 Months: {{ appointments_last_six_months.count }}</li>
+  </ul>
+
+  <hr>
+  <h4>Appointments in the Last 30 Days</h4>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Doctor</th>
+        <th>Time</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for appt in appointments_last_month %}
+        <tr>
+          <td>{{ appt.start_date|date:"Y-m-d" }}</td>
+          <td>{{ appt.doctor.user.get_full_name }}</td>
+          <td>{{ appt.time.time }}</td>
+          <td>{{ appt.description }}</td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="4" class="text-center">No appointments in the last 30 days.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
