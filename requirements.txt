@@ -1,1 +1,9 @@
+gunicorn
+packaging
+pillow
+python-decouple
+soupsieve
+sqlparse
+typing_extensions
+decouple
 Django
