@@ -5,111 +5,751 @@
 {% block page_title %} Patient Dashboard {% endblock page_title %}
 
 {% block content %}
-<main>
+<style>
+  .patient-dashboard-card {
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    border-radius: 20px;
+    padding: 25px;
+    color: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    border: none;
+  }
 
-  <h2 class="dash-title">Patient Dashboard</h2>
-  
+  .patient-dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+  }
+
+  .patient-dashboard-card.medicine {
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+  }
+
+  .patient-dashboard-card.reminders {
+    background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+  }
+
+  .patient-dashboard-card.health-info {
+    background: linear-gradient(135deg, #9C27B0 0%, #673AB7 100%);
+  }
+
+  .patient-dashboard-card h5 {
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+  }
+
+  .patient-dashboard-card h5 i {
+    font-size: 1.5rem;
+    margin-right: 10px;
+    opacity: 0.9;
+  }
+
+  .medicine-table {
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    overflow: hidden;
+  }
+
+  .medicine-table th {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: none;
+    padding: 12px 8px;
+    font-weight: 600;
+    text-align: center;
+    font-size: 0.85rem;
+  }
+
+  .medicine-table td {
+    color: white;
+    border: none;
+    padding: 10px 8px;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  .medicine-slot {
+    background: rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 5px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  .medicine-slot.empty {
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.6);
+  }
+
+  .health-stats {
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+  }
+
+  .health-stats:hover {
+    background: rgba(255,255,255,0.2);
+  }
+
+  .health-stats h5 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
+
+  .health-stats small {
+    opacity: 0.9;
+    font-weight: 500;
+  }
+
+  .patient-reminder-section {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .patient-reminder-item {
+    background: rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-left: 4px solid rgba(255,255,255,0.3);
+  }
+
+  .patient-reminder-item h6 {
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .patient-reminder-item p {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
+
+  .patient-chart-container {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+  }
+
+  .patient-birthday-card {
+    background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+    border-radius: 20px;
+    padding: 20px;
+    color: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+
+  .patient-dashboard-header {
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 30px;
+    color: white;
+    text-align: center;
+  }
+
+  .patient-dashboard-header h2 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 2.5rem;
+  }
+
+  .patient-dashboard-header p {
+    margin: 10px 0 0 0;
+    opacity: 0.9;
+    font-size: 1.1rem;
+  }
+
+  .medicine-reminder {
+    background: rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .medicine-reminder .time {
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .medicine-reminder .medicine-name {
+    font-size: 0.85rem;
+    opacity: 0.9;
+  }
+
+  .taken-btn {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    border-radius: 15px;
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    transition: all 0.3s ease;
+  }
+
+  .taken-btn:hover {
+    background: rgba(255,255,255,0.3);
+  }
+
+  /* Responsive Design for Patient Dashboard */
+  @media (max-width: 1199.98px) {
+    .patient-dashboard-card {
+      padding: 20px;
+    }
+
+    .patient-dashboard-header {
+      padding: 25px;
+    }
+
+    .patient-dashboard-header h2 {
+      font-size: 2.2rem;
+    }
+  }
+
+  @media (max-width: 991.98px) {
+    .patient-dashboard-card {
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+
+    .patient-dashboard-header {
+      padding: 20px;
+      margin-bottom: 25px;
+    }
+
+    .patient-dashboard-header h2 {
+      font-size: 2rem;
+    }
+
+    .patient-dashboard-header p {
+      font-size: 1rem;
+    }
+
+    .medicine-reminder {
+      padding: 10px;
+      margin-bottom: 6px;
+    }
+
+    .medicine-reminder .time {
+      font-size: 0.85rem;
+    }
+
+    .medicine-reminder .medicine-name {
+      font-size: 0.8rem;
+    }
+
+    .health-stats {
+      padding: 15px;
+      margin-bottom: 12px;
+    }
+
+    .health-stats h5 {
+      font-size: 1.1rem;
+    }
+
+    .patient-chart-container {
+      padding: 20px;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .patient-dashboard-card {
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+
+    .patient-dashboard-header {
+      padding: 20px 15px;
+      margin-bottom: 20px;
+    }
+
+    .patient-dashboard-header h2 {
+      font-size: 1.8rem;
+    }
+
+    .patient-dashboard-header p {
+      font-size: 0.95rem;
+    }
+
+    .patient-dashboard-card h5 {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+    }
+
+    .patient-dashboard-card h5 i {
+      font-size: 1.2rem;
+    }
+
+    .medicine-reminder {
+      padding: 8px;
+      margin-bottom: 5px;
+    }
+
+    .medicine-reminder .time {
+      font-size: 0.8rem;
+    }
+
+    .medicine-reminder .medicine-name {
+      font-size: 0.75rem;
+    }
+
+    .taken-btn {
+      padding: 3px 8px;
+      font-size: 0.7rem;
+    }
+
+    .health-stats {
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+
+    .health-stats h5 {
+      font-size: 1rem;
+    }
+
+    .health-stats small {
+      font-size: 0.8rem;
+    }
+
+    .patient-reminder-item {
+      padding: 12px;
+      margin-bottom: 8px;
+    }
+
+    .patient-reminder-item h6 {
+      font-size: 0.9rem;
+    }
+
+    .patient-reminder-item p {
+      font-size: 0.8rem;
+    }
+
+    .patient-chart-container {
+      padding: 15px;
+    }
+
+    .patient-birthday-card {
+      padding: 15px;
+    }
+
+    .patient-birthday-card img {
+      width: 50px;
+      height: 50px;
+    }
+
+    .patient-birthday-card h5 {
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 575.98px) {
+    .patient-dashboard-card {
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .patient-dashboard-header {
+      padding: 15px 10px;
+      margin-bottom: 15px;
+    }
+
+    .patient-dashboard-header h2 {
+      font-size: 1.5rem;
+    }
+
+    .patient-dashboard-header p {
+      font-size: 0.9rem;
+    }
+
+    .patient-dashboard-card h5 {
+      font-size: 1rem;
+      margin-bottom: 12px;
+    }
+
+    .patient-dashboard-card h5 i {
+      font-size: 1.1rem;
+      margin-right: 8px;
+    }
+
+    .medicine-reminder {
+      padding: 6px;
+      margin-bottom: 4px;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .medicine-reminder .time {
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .medicine-reminder .medicine-name {
+      font-size: 0.7rem;
+      margin-bottom: 5px;
+    }
+
+    .taken-btn {
+      padding: 2px 6px;
+      font-size: 0.65rem;
+      align-self: flex-end;
+    }
+
+    .health-stats {
+      padding: 10px;
+      margin-bottom: 8px;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .health-stats h5 {
+      font-size: 0.9rem;
+      margin-bottom: 2px;
+    }
+
+    .health-stats small {
+      font-size: 0.75rem;
+    }
+
+    .health-stats i {
+      align-self: flex-end;
+      margin-top: -20px;
+    }
+
+    .patient-reminder-item {
+      padding: 10px;
+      margin-bottom: 6px;
+    }
+
+    .patient-reminder-item h6 {
+      font-size: 0.85rem;
+      margin-bottom: 5px;
+    }
+
+    .patient-reminder-item p {
+      font-size: 0.75rem;
+    }
+
+    .patient-chart-container {
+      padding: 12px;
+    }
+
+    .patient-chart-container h4,
+    .patient-chart-container h5 {
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
+
+    .patient-birthday-card {
+      padding: 12px;
+    }
+
+    .patient-birthday-card img {
+      width: 45px;
+      height: 45px;
+    }
+
+    .patient-birthday-card h5 {
+      font-size: 0.9rem;
+    }
+
+    .patient-birthday-card small {
+      font-size: 0.75rem;
+    }
+
+    .wish-btn {
+      padding: 6px 12px;
+      font-size: 0.75rem;
+    }
+
+    /* Stack medicine reminders vertically on very small screens */
+    .medicine-reminder {
+      text-align: left;
+    }
+
+    .medicine-reminder .taken-btn {
+      margin-top: 5px;
+      width: 100%;
+    }
+  }
+
+  /* Landscape orientation for tablets */
+  @media (max-width: 1024px) and (orientation: landscape) {
+    .patient-dashboard-header {
+      padding: 20px;
+    }
+
+    .patient-dashboard-header h2 {
+      font-size: 2rem;
+    }
+
+    .patient-dashboard-card {
+      padding: 18px;
+    }
+  }
+
+  /* Floating Action Button for Mobile */
+  .patient-fab-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+
+  .patient-fab-main {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #2196F3, #1976D2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+  }
+
+  .patient-fab-main:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+  }
+
+  .patient-fab-menu {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .patient-fab-menu.active {
+    display: flex;
+  }
+
+  .patient-fab-item {
+    width: 50px;
+    height: 50px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+  }
+
+  .patient-fab-item:hover {
+    transform: scale(1.1);
+    color: #2196F3;
+  }
+
+  @media (min-width: 768px) {
+    .patient-fab-container {
+      display: none;
+    }
+  }
+</style>
+
+<main>
+  <!-- Patient Dashboard Header -->
+  <div class="patient-dashboard-header">
+    <h2><i class="bi bi-heart-pulse me-3"></i>Patient Dashboard</h2>
+    <p>Track your health journey and manage your medications</p>
+
+    <!-- Quick Actions for Mobile -->
+    <div class="d-md-none mt-3">
+      <div class="row g-2">
+        <div class="col-6">
+          <a href="{% url 'my_appointments' %}" class="btn btn-light btn-sm w-100">
+            <i class="bi bi-calendar-heart me-1"></i>My Appointments
+          </a>
+        </div>
+        <div class="col-6">
+          <a href="{% url 'patient_profile' %}" class="btn btn-light btn-sm w-100">
+            <i class="bi bi-person me-1"></i>Profile
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="row justify-content-between">
 
-    <div class="bg-light p-2 shadow col-12 col-lg-4 mb-3">
-      <h5 class="mt-2"><i class="ms-2 bi bi-briefcase-fill"></i> Medicine Timings</h5>
-      <table class="table mt-4">
-        <thead>
-          <tr>
-            <th scope="col">Med1</th>
-            <th scope="col">Med2</th>
-            <th scope="col">Med3</th>
-            <th scope="col">Med4</th>
-            <th scope="col">Med5</th>
-            <th scope="col">Med7</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>cit</td>
-            <td>Dolo</td>
-            <td>--</td>
-            <td>--</td>
-            <td>diz</td>
-            <td>pnk</td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="col-12 col-md-6 col-lg-4 mb-3">
+      <div class="patient-dashboard-card medicine">
+        <h5><i class="bi bi-capsule"></i> Today's Medications</h5>
+        <div class="medicine-reminder">
+          <div>
+            <div class="time">8:00 AM</div>
+            <div class="medicine-name">Citrizine (1 tablet)</div>
+          </div>
+          <button class="taken-btn">✓ Taken</button>
+        </div>
+        <div class="medicine-reminder">
+          <div>
+            <div class="time">12:00 PM</div>
+            <div class="medicine-name">Dolo 650 (1 tablet)</div>
+          </div>
+          <button class="taken-btn">Take Now</button>
+        </div>
+        <div class="medicine-reminder">
+          <div>
+            <div class="time">6:00 PM</div>
+            <div class="medicine-name">Vitamin D (1 capsule)</div>
+          </div>
+          <button class="taken-btn">Pending</button>
+        </div>
+        <div class="medicine-reminder">
+          <div>
+            <div class="time">9:00 PM</div>
+            <div class="medicine-name">Calcium (2 tablets)</div>
+          </div>
+          <button class="taken-btn">Pending</button>
+        </div>
+        <div class="mt-3 text-center">
+          <small><i class="bi bi-info-circle me-1"></i>2 of 4 medications taken today</small>
+        </div>
+      </div>
     </div>
 
-    <div class="bg-light p-2 shadow col-12 col-lg-4 mb-3">
-      <div>
-        <div class="d-flex justify-content-between">
-          <h5 class="mt-2 mb-2"><i class="ms-2 bi bi-alarm-fill"></i> Remainder</h5>
-          <!-- Button trigger modal -->
-          <button type="button" class="btn text-end" data-bs-toggle="modal" data-bs-target="#Remainder">
-            <i class="bi bi-calendar-plus fs-5"></i>
+    <div class="col-12 col-md-6 col-lg-4 mb-3">
+      <div class="patient-dashboard-card reminders">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="mb-0"><i class="bi bi-bell"></i> Health Reminders</h5>
+          <button type="button" class="add-reminder-btn" data-bs-toggle="modal" data-bs-target="#Remainder"
+                  style="background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3); color: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">
+            <i class="bi bi-plus-lg"></i>
           </button>
         </div>
-      </div>
-    
-      <!-- Modal -->
-      <div class="modal fade" id="Remainder" tabindex="-1" aria-labelledby="Remainder" aria-hidden="true">
-        <!-- Modal content -->
-      </div>
-      <!-- /Modal -->
 
-      <div style="overflow-y: scroll; height: 130px;">
-        <div class="alert" role="alert">
-          <h6 class="alert-heading fw-bold">Remainder Tittle</h6>
-          <p class="">Aucun Remainder</p>
+        <div class="patient-reminder-section">
+          <div class="patient-reminder-item">
+            <h6><i class="bi bi-calendar-heart me-2"></i>Doctor Appointment</h6>
+            <p>Cardiology checkup with Dr. Smith tomorrow at 10:00 AM</p>
+          </div>
+          <div class="patient-reminder-item">
+            <h6><i class="bi bi-droplet me-2"></i>Blood Test</h6>
+            <p>Fasting blood sugar test scheduled for Friday morning</p>
+          </div>
+          <div class="patient-reminder-item">
+            <h6><i class="bi bi-activity me-2"></i>Exercise Reminder</h6>
+            <p>30 minutes of walking recommended by your doctor</p>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="bg-light p-2 shadow col-12 col-lg-3 mb-3">
-      <h5 class="mt-2"><i class="ms-2 bi bi-pie-chart-fill"></i> Details</h5>
-      <div class="summary-single">
-        <span class="ti-id-badge"></span>
-        <div>
-          <h5>Maladie</h5>
-          <small>Fes</small>
+    <div class="col-12 col-md-12 col-lg-4 mb-3">
+      <div class="patient-dashboard-card health-info">
+        <h5><i class="bi bi-heart-pulse"></i> Health Overview</h5>
+        <div class="health-stats">
+          <div>
+            <h5>Normal</h5>
+            <small>Blood Pressure</small>
+          </div>
+          <i class="bi bi-heart text-white" style="font-size: 1.5rem; opacity: 0.8;"></i>
         </div>
-      </div>
-      <div class="summary-single">
-        <span class="ti-face-smile"></span>
-        <div>
-          <h5>Hospital</h5>
-          <small>Department</small>
+        <div class="health-stats">
+          <div>
+            <h5>98.6°F</h5>
+            <small>Body Temperature</small>
+          </div>
+          <i class="bi bi-thermometer text-white" style="font-size: 1.5rem; opacity: 0.8;"></i>
+        </div>
+        <div class="health-stats">
+          <div>
+            <h5>72 BPM</h5>
+            <small>Heart Rate</small>
+          </div>
+          <i class="bi bi-activity text-white" style="font-size: 1.5rem; opacity: 0.8;"></i>
+        </div>
+        <div class="health-stats">
+          <div>
+            <h5>Dr. Smith</h5>
+            <small>Primary Doctor</small>
+          </div>
+          <i class="bi bi-person-badge text-white" style="font-size: 1.5rem; opacity: 0.8;"></i>
         </div>
       </div>
     </div>
     
   </div>
   
-  <section class="recent">
-    <div class="activity-grid">
-      <div class="activity-card row justify-content-center mb-3">
-        <div class="col-lg-8 col-md-8 col-12 ">
-          <h4 class="mt-3 text-center mt-5">Pie Chart</h4>
+  <section class="recent mt-4">
+    <div class="row">
+      <div class="col-lg-8 col-md-12 mb-4">
+        <div class="patient-chart-container">
+          <h4 class="mb-4"><i class="bi bi-graph-up me-2"></i>Health Progress Tracking</h4>
           <canvas id="myChart"></canvas>
         </div>
+      </div>
 
-        <div class="col-lg-4 col-md-4 col-12 col-sm-8 mb-2">
-          <h4 class="mt-3 text-center mt-5">Medicines Taken</h4>
+      <div class="col-lg-4 col-md-12 mb-4">
+        <div class="patient-chart-container">
+          <h5 class="mb-4"><i class="bi bi-pie-chart me-2"></i>Medication Adherence</h5>
           <canvas id="pieChart"></canvas>
         </div>
       </div>
-      
-      <div class="summary">
-        <div class="bday-card shadow">
-          <div class="bday-flex justify-content-between">
-            <div class="col-3">
-              <img src="https://missionvet.ca/wp-content/uploads/2020/01/User-Profile-PNG-1.png" class="img-fluid" style="width: 50px; border-radius: 50%;">
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6 col-md-12 mb-4">
+        <div class="patient-birthday-card">
+          <div class="d-flex align-items-center">
+            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=150&h=150&fit=crop&crop=face"
+                 alt="Patient" class="me-3" style="width: 60px; height: 60px; border-radius: 50%; border: 3px solid white; object-fit: cover;">
+            <div class="flex-grow-1">
+              <h5>Happy Birthday!</h5>
+              <small><i class="bi bi-gift me-1"></i>Wishing you good health!</small>
+              <div class="mt-2">
+                <button class="wish-btn" style="background: rgba(255,255,255,0.2); border: 2px solid rgba(255,255,255,0.3); color: white; border-radius: 25px; padding: 8px 16px; font-size: 0.85rem;">
+                  <i class="bi bi-heart me-1"></i>
+                  Thank You!
+                </button>
+              </div>
             </div>
-            <div class="bday-info col-8">
-              <h5>Patient</h5>
-              <small>Birthday Today</small><br>   
-              <button class="btn btn-dark btn-sm">
-                <span class="ti-gift"></span>
-                Wish him
-              </button>
-            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6 col-md-12 mb-4">
+        <div class="patient-dashboard-card" style="background: linear-gradient(135deg, #00BCD4 0%, #0097A7 100%);">
+          <h5><i class="bi bi-clipboard-data me-2"></i>Quick Health Stats</h5>
+          <div class="d-flex justify-content-between mb-3">
+            <span>Medications Taken Today</span>
+            <strong>2/4</strong>
+          </div>
+          <div class="d-flex justify-content-between mb-3">
+            <span>Upcoming Appointments</span>
+            <strong>1</strong>
+          </div>
+          <div class="d-flex justify-content-between mb-3">
+            <span>Health Score</span>
+            <strong>85%</strong>
+          </div>
+          <div class="d-flex justify-content-between">
+            <span>Days Since Last Visit</span>
+            <strong>12</strong>
           </div>
         </div>
       </div>
@@ -119,30 +759,57 @@
   <!--graph scripts-->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
+    // Health Progress Chart
     const labels = [
-      'Med-1',
-      'Med-2',
-      'Med-3',
-      'Med-4',
+      'Week 1',
+      'Week 2',
+      'Week 3',
+      'Week 4',
+      'Week 5',
+      'Week 6'
     ];
-  
+
     const data = {
       labels: labels,
       datasets: [{
-        label: 'Dosage',
-        backgroundColor: 'rgb(15, 110, 172)',
-        borderColor: 'rgb(25, 99, 232)',
-        data: [7, 12, 7, 9],
+        label: 'Health Score',
+        backgroundColor: 'rgba(76, 175, 80, 0.8)',
+        borderColor: 'rgb(76, 175, 80)',
+        borderWidth: 3,
+        borderRadius: 8,
+        data: [65, 72, 78, 81, 85, 88],
+        tension: 0.4
       }]
     };
-  
+
     const config = {
-      type: 'bar',
+      type: 'line',
       data: data,
-      options: {}
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top',
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100,
+            grid: {
+              color: 'rgba(0,0,0,0.1)'
+            }
+          },
+          x: {
+            grid: {
+              display: false
+            }
+          }
+        }
+      }
     };
-  </script>
-  <script>
+
     const myChart = new Chart(
       document.getElementById('myChart'),
       config
@@ -150,30 +817,93 @@
   </script>
 
   <script>
-    // setup
+    // Medication Adherence Pie Chart
     const dataPie = {
-      labels: ['Total Medicines', 'Pending'],
+      labels: ['Taken on Time', 'Taken Late', 'Missed'],
       datasets: [{
-        label: 'Medicines and pendings',
-        data: [34, 3],
+        label: 'Medication Adherence',
+        data: [75, 15, 10],
         backgroundColor: [
-          'rgb(54, 76, 25)',
-          'rgb(255, 9, 132)'
+          'rgba(76, 175, 80, 0.8)',
+          'rgba(255, 193, 7, 0.8)',
+          'rgba(244, 67, 54, 0.8)'
         ],
+        borderColor: [
+          'rgb(76, 175, 80)',
+          'rgb(255, 193, 7)',
+          'rgb(244, 67, 54)'
+        ],
+        borderWidth: 2,
         hoverOffset: 4
       }]
     };
-    // config
+
     const configPie = {
-      type: 'pie',
+      type: 'doughnut',
       data: dataPie,
-      options: {}
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+          }
+        }
+      }
     };
-    // render in block
+
     const pieChart = new Chart(
       document.getElementById('pieChart'),
       configPie
     );
+  </script>
+
+  <!-- Floating Action Button for Mobile -->
+  <div class="patient-fab-container d-md-none">
+    <div class="patient-fab-menu" id="patientFabMenu">
+      <a href="{% url 'my_appointments' %}" class="patient-fab-item" title="My Appointments">
+        <i class="bi bi-calendar-heart"></i>
+      </a>
+      <a href="{% url 'patient_profile' %}" class="patient-fab-item" title="Profile">
+        <i class="bi bi-person"></i>
+      </a>
+      <a href="{% url 'book_appointment' %}" class="patient-fab-item" title="Book Appointment">
+        <i class="bi bi-calendar-plus"></i>
+      </a>
+      <a href="{% url 'report' %}" class="patient-fab-item" title="Reports">
+        <i class="bi bi-file-medical"></i>
+      </a>
+    </div>
+    <button class="patient-fab-main" id="patientFabMain">
+      <i class="bi bi-plus-lg"></i>
+    </button>
+  </div>
+
+  <script>
+    // Patient Floating Action Button functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const patientFabMain = document.getElementById('patientFabMain');
+      const patientFabMenu = document.getElementById('patientFabMenu');
+
+      if (patientFabMain && patientFabMenu) {
+        patientFabMain.addEventListener('click', function() {
+          patientFabMenu.classList.toggle('active');
+          const icon = patientFabMain.querySelector('i');
+          if (patientFabMenu.classList.contains('active')) {
+            icon.className = 'bi bi-x-lg';
+          } else {
+            icon.className = 'bi bi-plus-lg';
+          }
+        });
+
+        // Close FAB menu when clicking outside
+        document.addEventListener('click', function(e) {
+          if (!patientFabMain.contains(e.target) && !patientFabMenu.contains(e.target)) {
+            patientFabMenu.classList.remove('active');
+            patientFabMain.querySelector('i').className = 'bi bi-plus-lg';
+          }
+        });
+      }
+    });
   </script>
 
 </main>

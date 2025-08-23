@@ -15,41 +15,41 @@
 
   <div class="container position-relative" style="z-index: 2;">
     <div class="row align-items-center min-vh-75">
-      <div class="col-lg-6">
-        <h1 class="display-4 fw-bold mb-4">Your Health, Our Priority</h1>
-        <p class="lead mb-4">
-          Experience world-class healthcare with our team of expert doctors and modern facilities. 
+      <div class="col-lg-6 order-2 order-lg-1">
+        <h1 class="display-4 display-md-3 fw-bold mb-3 mb-md-4 text-center text-lg-start">Your Health, Our Priority</h1>
+        <p class="lead mb-3 mb-md-4 text-center text-lg-start">
+          Experience world-class healthcare with our team of expert doctors and modern facilities.
           Book your appointment today and take the first step towards better health.
         </p>
-        <div class="d-flex flex-wrap gap-4 justify-content-center justify-lg-start">
-          <a href="{% url 'appointment' %}" class="btn btn-light btn-lg px-5 py-3"
+        <div class="d-flex flex-column flex-md-row gap-3 gap-md-4 justify-content-center justify-lg-start">
+          <a href="{% url 'appointment' %}" class="btn btn-light btn-lg px-4 px-md-5 py-3"
              style="background: linear-gradient(135deg, #ffd700, #ffed4e); color: #333; font-weight: 700; border-radius: 50px; box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3); transition: all 0.3s ease; text-decoration: none;">
             <i class="fas fa-calendar-plus me-2"></i>Book Appointment
           </a>
-          <a href="{% url 'services' %}" class="btn btn-outline-light btn-lg px-5 py-3"
+          <a href="{% url 'services' %}" class="btn btn-outline-light btn-lg px-4 px-md-5 py-3"
              style="border: 3px solid #ffd700; color: #ffd700; font-weight: 700; border-radius: 50px; background: transparent; transition: all 0.3s ease; text-decoration: none;">
             <i class="fas fa-stethoscope me-2"></i>Our Services
           </a>
         </div>
       </div>
-      <div class="col-lg-6 text-center">
+      <div class="col-lg-6 text-center order-1 order-lg-2 mb-4 mb-lg-0">
         <div class="hero-image-placeholder rounded-3 shadow-lg d-flex align-items-center justify-content-center position-relative"
-             style="height: 450px; background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1)); backdrop-filter: blur(10px); border: 2px solid rgba(255,255,255,0.3);">
+             style="height: 350px; height-md: 450px; background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.1)); backdrop-filter: blur(10px); border: 2px solid rgba(255,255,255,0.3);">
           <div class="text-center position-relative" style="z-index: 2;">
             <div class="logo-fallback animated-logo" style="font-size: 52px; margin-bottom: 25px; border: none; background: transparent; animation: float 3s ease-in-out infinite;">
               <span class="go" style="color: #ffd700; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Go</span><span class="doctor" style="color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Doctor's</span> <span class="care" style="color: #ff6b6b; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Care</span>
             </div>
             <h4 class="text-white mb-3" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.3); font-weight: 600;">Modern Healthcare Facility</h4>
             <p class="text-white opacity-75" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.2); font-size: 1.1rem;">Your Health, Our Priority</p>
-            <div class="mt-4">
-              <div class="d-flex justify-content-center gap-4">
-                <div class="feature-badge" style="background: rgba(255,215,0,0.2); padding: 10px 20px; border-radius: 25px; border: 2px solid #ffd700;">
+            <div class="mt-3 mt-md-4">
+              <div class="d-flex flex-column flex-sm-row justify-content-center gap-2 gap-sm-4">
+                <div class="feature-badge" style="background: rgba(255,215,0,0.2); padding: 8px 16px; border-radius: 25px; border: 2px solid #ffd700;">
                   <i class="fas fa-heart text-warning me-2"></i>
-                  <span class="text-white">Compassionate Care</span>
+                  <span class="text-white small">Compassionate Care</span>
                 </div>
-                <div class="feature-badge" style="background: rgba(255,107,107,0.2); padding: 10px 20px; border-radius: 25px; border: 2px solid #ff6b6b;">
+                <div class="feature-badge" style="background: rgba(255,107,107,0.2); padding: 8px 16px; border-radius: 25px; border: 2px solid #ff6b6b;">
                   <i class="fas fa-shield-alt text-danger me-2"></i>
-                  <span class="text-white">24/7 Support</span>
+                  <span class="text-white small">24/7 Support</span>
                 </div>
               </div>
             </div>
@@ -178,11 +178,11 @@
       <div class="col-lg-8 mx-auto">
         <h2 class="display-5 fw-bold mb-3" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">Ready to Get Started?</h2>
         <p class="lead mb-4" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.2);">Book your appointment today and experience quality healthcare with GoDoctor's Care</p>
-        <div class="d-flex justify-content-center gap-3 flex-wrap">
-          <a href="{% url 'appointment' %}" class="btn btn-light btn-lg px-5 py-3" style="background: linear-gradient(135deg, #ffd700, #ffed4e); color: #333; font-weight: 700; border-radius: 50px; box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);">
+        <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+          <a href="{% url 'appointment' %}" class="btn btn-light btn-lg px-4 px-md-5 py-3" style="background: linear-gradient(135deg, #ffd700, #ffed4e); color: #333; font-weight: 700; border-radius: 50px; box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);">
             <i class="fas fa-calendar-plus me-2"></i>Book Appointment Now
           </a>
-          <a href="{% url 'contact' %}" class="btn btn-outline-light btn-lg px-5 py-3" style="border: 3px solid #ffd700; color: #ffd700; font-weight: 700; border-radius: 50px;">
+          <a href="{% url 'contact' %}" class="btn btn-outline-light btn-lg px-4 px-md-5 py-3" style="border: 3px solid #ffd700; color: #ffd700; font-weight: 700; border-radius: 50px;">
             <i class="fas fa-phone me-2"></i>Contact Us
           </a>
         </div>

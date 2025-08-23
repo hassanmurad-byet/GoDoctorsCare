@@ -511,36 +511,405 @@ footer ul li a:hover {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+
+/* Large tablets and small desktops */
+@media (max-width: 991.98px) {
+  .hero-section {
+    min-height: 80vh;
+    padding: 2rem 0;
+  }
+
   .hero-section h1 {
-    font-size: 2.5rem;
+    font-size: 3rem;
   }
-  
+
   .hero-section .lead {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
   }
-  
-  .navbar-nav .nav-link {
-    margin: 0.25rem 0;
+
+  .doctors-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 15px !important;
+    max-width: 350px !important;
   }
-  
-  section {
-    padding: 3rem 0;
+
+  .doctor-card {
+    padding: 15px !important;
+  }
+
+  .doctor-img {
+    width: 70px !important;
+    height: 70px !important;
+  }
+
+  .stats-row {
+    flex-direction: column !important;
+    gap: 15px !important;
+  }
+
+  .stat-item {
+    margin-bottom: 10px;
   }
 }
 
-@media (max-width: 576px) {
-  .hero-section h1 {
-    font-size: 2rem;
+/* Tablets */
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: 70vh;
+    padding: 1.5rem 0;
   }
-  
+
+  .hero-section h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero-section .lead {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .navbar-nav .nav-link {
+    margin: 0.25rem 0;
+    padding: 0.75rem 1rem !important;
+  }
+
+  section {
+    padding: 2.5rem 0;
+  }
+
+  .user-welcome-bar {
+    padding: 10px 0 !important;
+  }
+
+  .user-welcome-bar .row {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .user-welcome-bar .col-md-4 {
+    margin-top: 15px;
+  }
+
+  .doctors-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    max-width: 300px !important;
+  }
+
+  .doctor-card {
+    padding: 10px !important;
+  }
+
+  .doctor-card h6 {
+    font-size: 0.9rem;
+  }
+
+  .doctor-card small {
+    font-size: 0.75rem;
+  }
+
+  .doctor-img {
+    width: 60px !important;
+    height: 60px !important;
+  }
+
+  .stats-row {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+
+  .stat-item {
+    padding: 10px 15px !important;
+  }
+
+  .stat-item h4 {
+    font-size: 1.2rem;
+  }
+
+  .doctor-profile-card {
+    padding: 20px !important;
+    margin-bottom: 20px;
+  }
+
+  .doctor-image-wrapper img {
+    width: 100px !important;
+    height: 100px !important;
+  }
+
+  .specialty-badge {
+    width: 35px !important;
+    height: 35px !important;
+  }
+
+  .quick-action-card {
+    padding: 15px !important;
+    margin-bottom: 15px;
+  }
+
+  .quick-action-card i {
+    font-size: 1.5rem !important;
+  }
+
   .btn-lg {
     padding: 0.75rem 1.5rem;
     font-size: 1rem;
   }
-  
+
   .display-5 {
+    font-size: 2.2rem;
+  }
+}
+
+/* Mobile phones */
+@media (max-width: 576px) {
+  .hero-section {
+    min-height: 60vh;
+    padding: 1rem 0;
+  }
+
+  .hero-section h1 {
     font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero-section .lead {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .hero-section .btn {
+    padding: 0.75rem 1.5rem !important;
+    font-size: 0.9rem !important;
+    margin-bottom: 10px;
+  }
+
+  .user-welcome-bar {
+    padding: 8px 0 !important;
+  }
+
+  .user-welcome-bar h5 {
+    font-size: 1rem;
+  }
+
+  .user-welcome-bar .btn {
+    padding: 0.4rem 0.8rem !important;
+    font-size: 0.8rem !important;
+  }
+
+  .doctors-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+    max-width: 280px !important;
+  }
+
+  .doctor-card {
+    padding: 8px !important;
+  }
+
+  .doctor-card h6 {
+    font-size: 0.8rem;
+    margin-bottom: 2px;
+  }
+
+  .doctor-card small {
+    font-size: 0.7rem;
+  }
+
+  .doctor-img {
+    width: 50px !important;
+    height: 50px !important;
+  }
+
+  .stats-row {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+
+  .stat-item {
+    padding: 8px 12px !important;
+  }
+
+  .stat-item h4 {
+    font-size: 1rem;
+  }
+
+  .stat-item small {
+    font-size: 0.7rem;
+  }
+
+  section {
+    padding: 2rem 0;
+  }
+
+  .doctor-profile-card {
+    padding: 15px !important;
+    margin-bottom: 15px;
+  }
+
+  .doctor-image-wrapper img {
+    width: 80px !important;
+    height: 80px !important;
+  }
+
+  .specialty-badge {
+    width: 30px !important;
+    height: 30px !important;
+    font-size: 0.8rem !important;
+  }
+
+  .doctor-profile-card h5 {
+    font-size: 1rem;
+  }
+
+  .doctor-profile-card p {
+    font-size: 0.85rem;
+  }
+
+  .quick-actions-section .row {
+    gap: 10px;
+  }
+
+  .quick-action-card {
+    padding: 12px !important;
+    margin-bottom: 10px;
+  }
+
+  .quick-action-card i {
+    font-size: 1.2rem !important;
+  }
+
+  .quick-action-card h6 {
+    font-size: 0.9rem;
+  }
+
+  .quick-action-card small {
+    font-size: 0.75rem;
+  }
+
+  .btn-lg {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  .display-5 {
+    font-size: 1.8rem;
+  }
+
+  .lead {
+    font-size: 1rem;
+  }
+
+  .container {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  .hero-section {
+    padding: 0.5rem 0;
+  }
+
+  .hero-section h1 {
+    font-size: 1.75rem;
+    line-height: 1.2;
+  }
+
+  .hero-section .lead {
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .hero-image-placeholder {
+    height: 280px !important;
+  }
+
+  .logo-fallback {
+    font-size: 36px !important;
+  }
+
+  .feature-badge {
+    padding: 6px 12px !important;
+    font-size: 0.8rem;
+  }
+
+  .feature-badge span {
+    font-size: 0.75rem !important;
+  }
+
+  .doctors-grid {
+    max-width: 250px !important;
+  }
+
+  .doctor-card {
+    padding: 6px !important;
+  }
+
+  .doctor-img {
+    width: 45px !important;
+    height: 45px !important;
+  }
+
+  .stat-item {
+    padding: 6px 10px !important;
+  }
+
+  .doctor-profile-card {
+    padding: 12px !important;
+  }
+
+  .doctor-image-wrapper img {
+    width: 70px !important;
+    height: 70px !important;
+  }
+
+  .specialty-badge {
+    width: 25px !important;
+    height: 25px !important;
+    font-size: 0.7rem !important;
+  }
+
+  .quick-action-card {
+    padding: 10px !important;
+  }
+
+  .btn-lg {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .display-5 {
+    font-size: 1.6rem;
+  }
+
+  .container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  section {
+    padding: 1.5rem 0 !important;
+  }
+}
+
+/* Landscape orientation for mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .hero-section {
+    min-height: 50vh;
+  }
+
+  .hero-image-placeholder {
+    height: 250px !important;
+  }
+
+  .hero-section h1 {
+    font-size: 2rem;
+  }
+
+  .hero-section .lead {
+    font-size: 1rem;
   }
 }
 

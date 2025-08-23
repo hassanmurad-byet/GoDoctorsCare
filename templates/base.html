@@ -34,47 +34,159 @@
         transform: translateY(-2px);
         box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
       }
+
+      /* Mobile Sidebar Styles */
+      .mobile-sidebar {
+        position: fixed;
+        top: 0;
+        left: -300px;
+        width: 300px;
+        height: 100vh;
+        background: white;
+        z-index: 9999;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        overflow-y: auto;
+      }
+
+      .mobile-sidebar.active {
+        left: 0;
+      }
+
+      .mobile-sidebar-header {
+        background: linear-gradient(135deg, #E1BEE7 0%, #F8E8FF 100%);
+        border-bottom: 1px solid #e9ecef;
+      }
+
+      .mobile-sidebar-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(0,0,0,0.5);
+        z-index: 9998;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .mobile-sidebar-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .mobile-nav-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .mobile-nav-list li {
+        border-bottom: 1px solid #f8f9fa;
+      }
+
+      .mobile-nav-link {
+        display: block;
+        padding: 15px 20px;
+        color: #333;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        font-weight: 500;
+      }
+
+      .mobile-nav-link:hover {
+        background: #f8f9fa;
+        color: #007bff;
+        text-decoration: none;
+      }
+
+      .mobile-nav-link i {
+        width: 20px;
+        text-align: center;
+      }
+
+      .mobile-user-info {
+        background: #f8f9fa;
+      }
+
+      .mobile-close-btn:hover {
+        color: #007bff !important;
+      }
+
+      .mobile-menu-btn:hover {
+        color: #ffd700 !important;
+      }
+
+      /* Hide mobile sidebar on desktop */
+      @media (min-width: 992px) {
+        .mobile-sidebar,
+        .mobile-sidebar-overlay {
+          display: none !important;
+        }
+      }
+
+      /* Dashboard button hover effects */
+      .nav-link[href*="dashboard"]:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2) !important;
+      }
+
+      .mobile-nav-link[href*="dashboard"]:hover {
+        transform: translateX(5px) !important;
+      }
     </style>
   </head>
 
   <body>
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <nav class="navbar navbar-dark fixed-top">
       <div class="container">
         <a class="navbar-brand" href="{% url 'home' %}" style="transition: all 0.3s ease;">
           <img src="{% static 'img/godoctor-logo.png' %}" alt="GoDoctor's Care Logo" height="45"
                onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';"
                style="filter: brightness(1.2) drop-shadow(2px 2px 4px rgba(0,0,0,0.3));">
           <span class="logo-fallback-white" style="display: none; font-size: 20px; height: 45px; line-height: 35px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">
-            <span class="go">Go</span><span class="doctor">Doctor's</span> <span class="care">Care</span>
+            <span class="go" style="color: #4CAF50;">Go</span><span class="doctor" style="color: #2196F3;">Doctor's</span> <span class="care" style="color: #F44336;">Care</span>
           </span>
         </a>
-        
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                style="border: 2px solid #ffd700; border-radius: 8px;">
-          <span class="navbar-toggler-icon" style="filter: brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(45deg);"></span>
-        </button>
-        
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
+
+        <!-- Desktop Navigation -->
+        <div class="d-none d-lg-flex">
+          <ul class="navbar-nav ms-auto d-flex flex-row align-items-center">
+            <li class="nav-item me-3">
               <a class="nav-link" href="{% url 'home' %}">Home</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item me-3">
               <a class="nav-link" href="{% url 'about' %}">About</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item me-3">
               <a class="nav-link" href="{% url 'services' %}">Services</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item me-3">
               <a class="nav-link" href="{% url 'doctors_list' %}">Doctors</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item me-3">
               <a class="nav-link" href="{% url 'appointment' %}">Book Appointment</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item me-3">
               <a class="nav-link" href="{% url 'contact' %}">Contact</a>
             </li>
+            {% if user.is_authenticated %}
+              <li class="nav-item me-3">
+                {% if user.is_doctor %}
+                  <a class="nav-link" href="{% url 'doctor_dashboard' %}"
+                     style="background: linear-gradient(135deg, #4CAF50, #45a049); color: white !important; border-radius: 25px; padding: 0.5rem 1rem; font-weight: 600; transition: all 0.3s ease;">
+                    <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                  </a>
+                {% else %}
+                  <a class="nav-link" href="{% url 'patient_dashboard' %}"
+                     style="background: linear-gradient(135deg, #2196F3, #1976D2); color: white !important; border-radius: 25px; padding: 0.5rem 1rem; font-weight: 600; transition: all 0.3s ease;">
+                    <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                  </a>
+                {% endif %}
+              </li>
+            {% endif %}
             {% if user.is_authenticated %}
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
@@ -95,9 +207,9 @@
                 </ul>
               </li>
             {% else %}
-              <li class="nav-item">
+              <li class="nav-item me-2">
                 <a class="nav-link login-btn" href="{% url 'login' %}"
-                   style="background: transparent; border: 2px solid #ffd700; color: #ffd700 !important; border-radius: 25px; padding: 0.5rem 1.5rem; margin-right: 0.5rem; font-weight: 600; transition: all 0.3s ease;">
+                   style="background: transparent; border: 2px solid #ffd700; color: #ffd700 !important; border-radius: 25px; padding: 0.5rem 1.5rem; font-weight: 600; transition: all 0.3s ease;">
                    Login
                 </a>
               </li>
@@ -110,8 +222,102 @@
             {% endif %}
           </ul>
         </div>
+
+        <!-- Mobile Menu Button -->
+        <button class="mobile-menu-btn d-lg-none" type="button" id="mobileMenuToggle"
+                style="background: none; border: none; color: white; font-size: 1.5rem; padding: 0.5rem;">
+          <i class="fas fa-bars"></i>
+        </button>
       </div>
     </nav>
+
+    <!-- Mobile Side Navigation -->
+    <div class="mobile-sidebar" id="mobileSidebar">
+      <div class="mobile-sidebar-header">
+        <div class="d-flex align-items-center justify-content-between p-3">
+          <div class="mobile-logo">
+            <span class="go" style="color: #4CAF50; font-weight: bold; font-size: 1.2rem;">Go</span><span class="doctor" style="color: #2196F3; font-weight: bold; font-size: 1.2rem;">Doctor's</span> <span class="care" style="color: #F44336; font-weight: bold; font-size: 1.2rem;">Care</span>
+          </div>
+          <button class="mobile-close-btn" id="mobileCloseBtn" style="background: none; border: none; color: #333; font-size: 1.5rem;">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="mobile-sidebar-content">
+        {% if user.is_authenticated %}
+          <div class="mobile-user-info p-3 border-bottom">
+            <div class="d-flex align-items-center">
+              {% if user.profile_avatar %}
+                <img src="{{ user.profile_avatar.url }}" alt="{{ user.first_name }}"
+                     class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;"
+                     onerror="this.src='{% static 'img/def.jpeg' %}';">
+              {% else %}
+                <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center me-3"
+                     style="width: 50px; height: 50px;">
+                  <i class="fas fa-user text-white"></i>
+                </div>
+              {% endif %}
+              <div>
+                <h6 class="mb-0">{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.username }}{% endif %}</h6>
+                <small class="text-muted">
+                  {% if user.is_doctor %}Doctor{% else %}Patient{% endif %}
+                </small>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+
+        <ul class="mobile-nav-list">
+          <li><a href="{% url 'home' %}" class="mobile-nav-link"><i class="fas fa-home me-3"></i>Home</a></li>
+          <li><a href="{% url 'about' %}" class="mobile-nav-link"><i class="fas fa-info-circle me-3"></i>About</a></li>
+          <li><a href="{% url 'services' %}" class="mobile-nav-link"><i class="fas fa-stethoscope me-3"></i>Services</a></li>
+          <li><a href="{% url 'doctors_list' %}" class="mobile-nav-link"><i class="fas fa-user-md me-3"></i>Doctors</a></li>
+          <li><a href="{% url 'appointment' %}" class="mobile-nav-link"><i class="fas fa-calendar-plus me-3"></i>Book Appointment</a></li>
+          <li><a href="{% url 'contact' %}" class="mobile-nav-link"><i class="fas fa-phone me-3"></i>Contact</a></li>
+
+          {% if user.is_authenticated %}
+            <li>
+              {% if user.is_doctor %}
+                <a href="{% url 'doctor_dashboard' %}" class="mobile-nav-link" style="background: linear-gradient(135deg, #4CAF50, #45a049); color: white; margin: 10px 20px; border-radius: 12px;"><i class="fas fa-tachometer-alt me-3"></i>Dashboard</a>
+              {% else %}
+                <a href="{% url 'patient_dashboard' %}" class="mobile-nav-link" style="background: linear-gradient(135deg, #2196F3, #1976D2); color: white; margin: 10px 20px; border-radius: 12px;"><i class="fas fa-tachometer-alt me-3"></i>Dashboard</a>
+              {% endif %}
+            </li>
+          {% endif %}
+
+          {% if user.is_authenticated %}
+            <li class="border-top mt-3 pt-3">
+              {% if user.is_doctor %}
+                <a href="{% url 'doctor_dashboard' %}" class="mobile-nav-link"><i class="fas fa-tachometer-alt me-3"></i>Dashboard</a>
+              {% else %}
+                <a href="{% url 'patient_dashboard' %}" class="mobile-nav-link"><i class="fas fa-tachometer-alt me-3"></i>Dashboard</a>
+              {% endif %}
+            </li>
+            <li>
+              {% if user.is_doctor %}
+                <a href="{% url 'doctor_profile' %}" class="mobile-nav-link"><i class="fas fa-user me-3"></i>Profile</a>
+              {% else %}
+                <a href="{% url 'patient_profile' %}" class="mobile-nav-link"><i class="fas fa-user me-3"></i>Profile</a>
+              {% endif %}
+            </li>
+            <li>
+              <a href="{% url 'logout' %}" class="mobile-nav-link text-danger"><i class="fas fa-sign-out-alt me-3"></i>Logout</a>
+            </li>
+          {% else %}
+            <li class="border-top mt-3 pt-3">
+              <a href="{% url 'login' %}" class="mobile-nav-link"><i class="fas fa-sign-in-alt me-3"></i>Login</a>
+            </li>
+            <li>
+              <a href="{% url 'register' %}" class="mobile-nav-link"><i class="fas fa-user-plus me-3"></i>Register</a>
+            </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Mobile Sidebar Overlay -->
+    <div class="mobile-sidebar-overlay" id="mobileSidebarOverlay"></div>
 
     <!-- Main Content -->
     <main>
@@ -185,10 +391,73 @@
 
     <!-- Bootstrap JS -->
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-    
+
     <!-- Custom JS -->
     <script src="{% static 'js/main.js' %}"></script>
-    
+
+    <!-- Mobile Sidebar JavaScript -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileCloseBtn = document.getElementById('mobileCloseBtn');
+        const mobileSidebar = document.getElementById('mobileSidebar');
+        const mobileSidebarOverlay = document.getElementById('mobileSidebarOverlay');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+        // Open mobile sidebar
+        if (mobileMenuToggle) {
+          mobileMenuToggle.addEventListener('click', function() {
+            mobileSidebar.classList.add('active');
+            mobileSidebarOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+          });
+        }
+
+        // Close mobile sidebar
+        function closeMobileSidebar() {
+          mobileSidebar.classList.remove('active');
+          mobileSidebarOverlay.classList.remove('active');
+          document.body.style.overflow = ''; // Restore scrolling
+        }
+
+        if (mobileCloseBtn) {
+          mobileCloseBtn.addEventListener('click', closeMobileSidebar);
+        }
+
+        if (mobileSidebarOverlay) {
+          mobileSidebarOverlay.addEventListener('click', closeMobileSidebar);
+        }
+
+        // Close sidebar when clicking on nav links
+        mobileNavLinks.forEach(function(link) {
+          link.addEventListener('click', function() {
+            closeMobileSidebar();
+          });
+        });
+
+        // Close sidebar on window resize if desktop
+        window.addEventListener('resize', function() {
+          if (window.innerWidth >= 992) {
+            closeMobileSidebar();
+          }
+        });
+
+        // Handle escape key
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape' && mobileSidebar.classList.contains('active')) {
+            closeMobileSidebar();
+          }
+        });
+
+        // Prevent sidebar from closing when clicking inside it
+        if (mobileSidebar) {
+          mobileSidebar.addEventListener('click', function(e) {
+            e.stopPropagation();
+          });
+        }
+      });
+    </script>
+
     {% block extra_js %}{% endblock extra_js %}
   </body>
 </html>

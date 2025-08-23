@@ -5,51 +5,628 @@
 {% block page_title %} Doctor Dashboard {% endblock page_title %}
 
 {% block content %}
+<style>
+  .dashboard-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 20px;
+    padding: 25px;
+    color: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    border: none;
+  }
+
+  .dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+  }
+
+  .dashboard-card.appointments {
+    background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  }
+
+  .dashboard-card.reminders {
+    background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+  }
+
+  .dashboard-card.stats {
+    background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%);
+  }
+
+  .dashboard-card h5 {
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+  }
+
+  .dashboard-card h5 i {
+    font-size: 1.5rem;
+    margin-right: 10px;
+    opacity: 0.9;
+  }
+
+  .appointment-table {
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    overflow: hidden;
+  }
+
+  .appointment-table th {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: none;
+    padding: 12px 8px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .appointment-table td {
+    color: white;
+    border: none;
+    padding: 10px 8px;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  .appointment-slot {
+    background: rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 5px;
+    font-size: 0.85rem;
+  }
+
+  .appointment-slot.empty {
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.6);
+  }
+
+  .stats-item {
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+
+  .stats-item:hover {
+    background: rgba(255,255,255,0.2);
+    transform: translateX(5px);
+  }
+
+  .stats-item i {
+    font-size: 2rem;
+    margin-right: 15px;
+    opacity: 0.8;
+  }
+
+  .stats-item h4 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.8rem;
+  }
+
+  .stats-item small {
+    opacity: 0.9;
+    font-weight: 500;
+  }
+
+  .reminder-section {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .reminder-item {
+    background: rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-left: 4px solid rgba(255,255,255,0.3);
+  }
+
+  .reminder-item h6 {
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .reminder-item p {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
+
+  .add-reminder-btn {
+    background: rgba(255,255,255,0.2);
+    border: 2px solid rgba(255,255,255,0.3);
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+
+  .add-reminder-btn:hover {
+    background: rgba(255,255,255,0.3);
+    transform: scale(1.1);
+  }
+
+  .chart-container {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+  }
+
+  .birthday-card {
+    background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+    border-radius: 20px;
+    padding: 20px;
+    color: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+
+  .birthday-card img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid white;
+    object-fit: cover;
+  }
+
+  .birthday-card h5 {
+    margin-bottom: 5px;
+    font-weight: 600;
+  }
+
+  .birthday-card small {
+    opacity: 0.9;
+  }
+
+  .wish-btn {
+    background: rgba(255,255,255,0.2);
+    border: 2px solid rgba(255,255,255,0.3);
+    color: white;
+    border-radius: 25px;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+
+  .wish-btn:hover {
+    background: white;
+    color: #FF6B6B;
+  }
+
+  .dashboard-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 30px;
+    color: white;
+    text-align: center;
+  }
+
+  .dashboard-header h2 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 2.5rem;
+  }
+
+  .dashboard-header p {
+    margin: 10px 0 0 0;
+    opacity: 0.9;
+    font-size: 1.1rem;
+  }
+
+  /* Responsive Design for Doctor Dashboard */
+  @media (max-width: 1199.98px) {
+    .dashboard-card {
+      padding: 20px;
+    }
+
+    .dashboard-header {
+      padding: 25px;
+    }
+
+    .dashboard-header h2 {
+      font-size: 2.2rem;
+    }
+  }
+
+  @media (max-width: 991.98px) {
+    .dashboard-card {
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+
+    .dashboard-header {
+      padding: 20px;
+      margin-bottom: 25px;
+    }
+
+    .dashboard-header h2 {
+      font-size: 2rem;
+    }
+
+    .dashboard-header p {
+      font-size: 1rem;
+    }
+
+    .appointment-table th,
+    .appointment-table td {
+      padding: 8px 4px;
+      font-size: 0.8rem;
+    }
+
+    .appointment-slot {
+      padding: 3px;
+      font-size: 0.75rem;
+    }
+
+    .stats-item {
+      padding: 15px;
+    }
+
+    .stats-item h4 {
+      font-size: 1.5rem;
+    }
+
+    .chart-container {
+      padding: 20px;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .dashboard-card {
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+
+    .dashboard-header {
+      padding: 20px 15px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .dashboard-header h2 {
+      font-size: 1.8rem;
+    }
+
+    .dashboard-header p {
+      font-size: 0.95rem;
+    }
+
+    .dashboard-card h5 {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+    }
+
+    .dashboard-card h5 i {
+      font-size: 1.2rem;
+    }
+
+    .appointment-table {
+      font-size: 0.8rem;
+    }
+
+    .appointment-table th,
+    .appointment-table td {
+      padding: 6px 2px;
+      font-size: 0.7rem;
+    }
+
+    .appointment-slot {
+      padding: 2px;
+      font-size: 0.65rem;
+    }
+
+    .stats-item {
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+
+    .stats-item h4 {
+      font-size: 1.3rem;
+    }
+
+    .stats-item i {
+      font-size: 1.5rem;
+    }
+
+    .reminder-item {
+      padding: 12px;
+      margin-bottom: 8px;
+    }
+
+    .reminder-item h6 {
+      font-size: 0.9rem;
+    }
+
+    .reminder-item p {
+      font-size: 0.8rem;
+    }
+
+    .chart-container {
+      padding: 15px;
+    }
+
+    .birthday-card {
+      padding: 15px;
+    }
+
+    .birthday-card img {
+      width: 50px;
+      height: 50px;
+    }
+
+    .birthday-card h5 {
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 575.98px) {
+    .dashboard-card {
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .dashboard-header {
+      padding: 15px 10px;
+      margin-bottom: 15px;
+    }
+
+    .dashboard-header h2 {
+      font-size: 1.5rem;
+    }
+
+    .dashboard-header p {
+      font-size: 0.9rem;
+    }
+
+    .dashboard-card h5 {
+      font-size: 1rem;
+      margin-bottom: 12px;
+    }
+
+    .dashboard-card h5 i {
+      font-size: 1.1rem;
+      margin-right: 8px;
+    }
+
+    .appointment-table th,
+    .appointment-table td {
+      padding: 4px 1px;
+      font-size: 0.65rem;
+    }
+
+    .appointment-slot {
+      padding: 1px;
+      font-size: 0.6rem;
+    }
+
+    .stats-item {
+      padding: 10px;
+      margin-bottom: 8px;
+    }
+
+    .stats-item h4 {
+      font-size: 1.1rem;
+    }
+
+    .stats-item small {
+      font-size: 0.75rem;
+    }
+
+    .stats-item i {
+      font-size: 1.3rem;
+      margin-right: 10px;
+    }
+
+    .reminder-item {
+      padding: 10px;
+      margin-bottom: 6px;
+    }
+
+    .reminder-item h6 {
+      font-size: 0.85rem;
+      margin-bottom: 5px;
+    }
+
+    .reminder-item p {
+      font-size: 0.75rem;
+    }
+
+    .chart-container {
+      padding: 12px;
+    }
+
+    .birthday-card {
+      padding: 12px;
+    }
+
+    .birthday-card img {
+      width: 45px;
+      height: 45px;
+    }
+
+    .birthday-card h5 {
+      font-size: 0.9rem;
+    }
+
+    .birthday-card small {
+      font-size: 0.75rem;
+    }
+
+    .wish-btn {
+      padding: 6px 12px;
+      font-size: 0.75rem;
+    }
+
+    .add-reminder-btn {
+      width: 35px;
+      height: 35px;
+    }
+  }
+
+  /* Landscape orientation for tablets */
+  @media (max-width: 1024px) and (orientation: landscape) {
+    .dashboard-header {
+      padding: 20px;
+    }
+
+    .dashboard-header h2 {
+      font-size: 2rem;
+    }
+
+    .dashboard-card {
+      padding: 18px;
+    }
+  }
+
+  /* Floating Action Button for Mobile */
+  .fab-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+
+  .fab-main {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.5rem;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+  }
+
+  .fab-main:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+  }
+
+  .fab-menu {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .fab-menu.active {
+    display: flex;
+  }
+
+  .fab-item {
+    width: 50px;
+    height: 50px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+    text-decoration: none;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+  }
+
+  .fab-item:hover {
+    transform: scale(1.1);
+    color: #4CAF50;
+  }
+
+  @media (min-width: 768px) {
+    .fab-container {
+      display: none;
+    }
+  }
+</style>
+
 <main>
-  {% comment %} <h2 class="dash-title">Dashboard</h2> {% endcomment %}
-    
+  <!-- Dashboard Header -->
+  <div class="dashboard-header">
+    <h2><i class="bi bi-speedometer2 me-3"></i>Doctor Dashboard</h2>
+    <p>Welcome back! Here's your medical practice overview</p>
+
+    <!-- Quick Actions for Mobile -->
+    <div class="d-md-none mt-3">
+      <div class="row g-2">
+        <div class="col-6">
+          <a href="{% url 'view_appointments' %}" class="btn btn-light btn-sm w-100">
+            <i class="bi bi-calendar-check me-1"></i>Appointments
+          </a>
+        </div>
+        <div class="col-6">
+          <a href="{% url 'doctor_profile' %}" class="btn btn-light btn-sm w-100">
+            <i class="bi bi-person me-1"></i>Profile
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="row justify-content-between">
 
-    <div class=" bg-light  p-2 shadow col-12 col-lg-4 mb-3" style="">
-      <h5 class="mt-2"><i class="ms-2 bi bi-briefcase-fill"></i> Today Appointments</h5>
-      <table class="table mt-4">
-          <thead>
-            <tr>
-              <th scope="col">P1</th>
-              <th scope="col">P2</th>
-              <th scope="col">P3</th>
-              <th scope="col">P4</th>
-              <th scope="col">P5</th>
-              <th scope="col">P6</th>
-              <th scope="col">P7</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Ap-1</td>
-              <td>Ap-1</td>
-              <td>--</td>
-              <td>Ap-1</td>
-              <td>Ap-1</td>
-              <td>--</td>
-              <td>Ap-1</td>
-              
-            </tr>
-          </tbody>
-      </table>
+    <div class="col-12 col-md-6 col-lg-4 mb-3">
+      <div class="dashboard-card appointments">
+        <h5><i class="bi bi-calendar-check"></i> Today's Appointments</h5>
+        <div class="appointment-table">
+          <table class="table table-borderless mb-0">
+            <thead>
+              <tr>
+                <th>9AM</th>
+                <th>10AM</th>
+                <th>11AM</th>
+                <th>2PM</th>
+                <th>3PM</th>
+                <th>4PM</th>
+                <th>5PM</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="appointment-slot">John D.</span></td>
+                <td><span class="appointment-slot">Sarah M.</span></td>
+                <td><span class="appointment-slot empty">--</span></td>
+                <td><span class="appointment-slot">Mike R.</span></td>
+                <td><span class="appointment-slot">Lisa K.</span></td>
+                <td><span class="appointment-slot empty">--</span></td>
+                <td><span class="appointment-slot">Tom B.</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="mt-3 text-center">
+          <small><i class="bi bi-info-circle me-1"></i>5 appointments scheduled today</small>
+        </div>
+      </div>
     </div>
 
 
-      <div class=" bg-light  p-2 shadow col-12 col-lg-4 mb-3">
-          <div>
-              <div class="d-flex justify-content-between">
-                  <h5 class="mt-2 mb-2"><i class="ms-2 bi bi-alarm-fill"></i> Remainder</h5>
-                  <!-- Button trigger modal -->
-                  <button type="button" class="btn text-end" data-bs-toggle="modal" data-bs-target="#Remainder" >
-                      <i class="bi bi-calendar-plus  fs-5"></i>
-                  </button>
-              </div>
-            
+      <div class="col-12 col-md-6 col-lg-4 mb-3">
+        <div class="dashboard-card reminders">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0"><i class="bi bi-bell"></i> Reminders</h5>
+            <button type="button" class="add-reminder-btn" data-bs-toggle="modal" data-bs-target="#Remainder">
+              <i class="bi bi-plus-lg"></i>
+            </button>
           </div>
           
   
@@ -85,65 +662,100 @@
                   </div>
                   </div>
               </div>
-              <div style = "overflow-y: scroll; height: 130px;">
-                  <div class="alert " role="alert">
-                      <h6 class="alert-heading fw-bold">Remainder Tittle</h6>
-                      <p class="">This is a friendly reminder that you have an appointment with [Patient's Name] on [Date] at [Time].</p>
-                  </div>
-              </div>
+          <div class="reminder-section">
+            <div class="reminder-item">
+              <h6><i class="bi bi-clock me-2"></i>Patient Follow-up</h6>
+              <p>Check on John Doe's recovery progress - scheduled for 2:00 PM</p>
+            </div>
+            <div class="reminder-item">
+              <h6><i class="bi bi-file-medical me-2"></i>Lab Results Review</h6>
+              <p>Review blood test results for Sarah Miller before tomorrow's appointment</p>
+            </div>
+            <div class="reminder-item">
+              <h6><i class="bi bi-calendar-event me-2"></i>Conference Call</h6>
+              <p>Medical team meeting at 4:30 PM to discuss treatment protocols</p>
+            </div>
+          </div>
+        </div>
       </div>
 
 
-      <div class=" bg-light p-2  shadow col-12 col-lg-3 mb-3">
-          <h5 class="mt-2"><i class=" ms-2 bi bi-pie-chart-fill"></i> Details</h5>
-          <div class="summary-single">
-              <span class="ti-id-badge"></span>
-              <div>
-                  <h5>5</h5>
-                  <small>Number of Branches</small>
-              </div>
+      <div class="col-12 col-md-12 col-lg-4 mb-3">
+        <div class="dashboard-card stats">
+          <h5><i class="bi bi-graph-up"></i> Statistics</h5>
+          <div class="stats-item">
+            <i class="bi bi-people"></i>
+            <div>
+              <h4>127</h4>
+              <small>Total Patients</small>
+            </div>
           </div>
-          <div class="summary-single">
-              <span class="ti-face-smile"></span>
-              <div>
-                  <h5>12</h5>
-                  <small>Number of Patients</small>
-              </div>
+          <div class="stats-item">
+            <i class="bi bi-calendar-check"></i>
+            <div>
+              <h4>45</h4>
+              <small>This Month</small>
+            </div>
           </div>
+          <div class="stats-item">
+            <i class="bi bi-star"></i>
+            <div>
+              <h4>4.9</h4>
+              <small>Rating</small>
+            </div>
+          </div>
+        </div>
       </div>
       
   </div>
     
     
-    <section class="recent">
-        <div class="activity-grid">
-            <div class="activity-card">
-                <div>
-                    <canvas id="myChart"></canvas>
-                  </div>
-            </div>
-            
-            <div class="summary">
-              
-            
-                
-                <div class="bday-card shadow">
-                    <div class="bday-flex justify-content-between">
-                        <div class="col-3">
-                            <img src="https://missionvet.ca/wp-content/uploads/2020/01/User-Profile-PNG-1.png" class="img-fluid" style="width: 50px; border-radius: 50%;">
-                        </div>
-                        <div class="bday-info col-8 ">
-                            <h5>Doctor</h5>
-                            <small>Birthday Today</small><br>   
-                            <button class="btn btn-dark  btn-sm">
-                                <span class="ti-gift"></span>
-                                Wish him
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <section class="recent mt-4">
+      <div class="row">
+        <div class="col-lg-8 col-md-12 mb-4">
+          <div class="chart-container">
+            <h4 class="mb-4"><i class="bi bi-bar-chart me-2"></i>Monthly Patient Statistics</h4>
+            <canvas id="myChart"></canvas>
+          </div>
         </div>
+
+        <div class="col-lg-4 col-md-12 mb-4">
+          <div class="birthday-card">
+            <div class="d-flex align-items-center">
+              <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=150&h=150&fit=crop&crop=face"
+                   alt="Dr. Smith" class="me-3">
+              <div class="flex-grow-1">
+                <h5>Dr. Sarah Smith</h5>
+                <small><i class="bi bi-gift me-1"></i>Birthday Today!</small>
+                <div class="mt-2">
+                  <button class="wish-btn">
+                    <i class="bi bi-heart me-1"></i>
+                    Send Wishes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-3">
+            <div class="dashboard-card" style="background: linear-gradient(135deg, #9C27B0 0%, #673AB7 100%); padding: 20px;">
+              <h6 class="mb-3"><i class="bi bi-trophy me-2"></i>Quick Stats</h6>
+              <div class="d-flex justify-content-between mb-2">
+                <small>Today's Appointments</small>
+                <strong>5/7</strong>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <small>Pending Reports</small>
+                <strong>3</strong>
+              </div>
+              <div class="d-flex justify-content-between">
+                <small>Success Rate</small>
+                <strong>98%</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <!--graph scripts-->
@@ -156,30 +768,102 @@
           'April',
           'May',
           'June',
+          'July'
         ];
-      
+
         const data = {
           labels: labels,
           datasets: [{
-            label: 'My Statistics',
-            backgroundColor: 'rgb(25, 9, 32)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: [0, 10, 5, 2, 20, 30, 45],
+            label: 'Patients Treated',
+            backgroundColor: 'rgba(102, 126, 234, 0.8)',
+            borderColor: 'rgb(102, 126, 234)',
+            borderWidth: 2,
+            borderRadius: 8,
+            data: [15, 25, 18, 32, 28, 35, 42],
           }]
         };
-      
+
         const config = {
           type: 'bar',
           data: data,
-          options: {}
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                display: true,
+                position: 'top',
+              },
+              title: {
+                display: false
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                grid: {
+                  color: 'rgba(0,0,0,0.1)'
+                }
+              },
+              x: {
+                grid: {
+                  display: false
+                }
+              }
+            }
+          }
         };
-      </script>
-      <script>
+
         const myChart = new Chart(
           document.getElementById('myChart'),
           config
         );
       </script>
+
+  <!-- Floating Action Button for Mobile -->
+  <div class="fab-container d-md-none">
+    <div class="fab-menu" id="fabMenu">
+      <a href="{% url 'view_appointments' %}" class="fab-item" title="View Appointments">
+        <i class="bi bi-calendar-check"></i>
+      </a>
+      <a href="{% url 'doctor_profile' %}" class="fab-item" title="Profile">
+        <i class="bi bi-person"></i>
+      </a>
+      <a href="{% url 'doctor_report' %}" class="fab-item" title="Reports">
+        <i class="bi bi-graph-up"></i>
+      </a>
+    </div>
+    <button class="fab-main" id="fabMain">
+      <i class="bi bi-plus-lg"></i>
+    </button>
+  </div>
+
+  <script>
+    // Floating Action Button functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const fabMain = document.getElementById('fabMain');
+      const fabMenu = document.getElementById('fabMenu');
+
+      if (fabMain && fabMenu) {
+        fabMain.addEventListener('click', function() {
+          fabMenu.classList.toggle('active');
+          const icon = fabMain.querySelector('i');
+          if (fabMenu.classList.contains('active')) {
+            icon.className = 'bi bi-x-lg';
+          } else {
+            icon.className = 'bi bi-plus-lg';
+          }
+        });
+
+        // Close FAB menu when clicking outside
+        document.addEventListener('click', function(e) {
+          if (!fabMain.contains(e.target) && !fabMenu.contains(e.target)) {
+            fabMenu.classList.remove('active');
+            fabMain.querySelector('i').className = 'bi bi-plus-lg';
+          }
+        });
+      }
+    });
+  </script>
 
 </main>
 {% endblock  %}
